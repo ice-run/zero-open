@@ -1,0 +1,13 @@
+spring:
+
+  application:
+    name: ${APPLICATION:gateway}
+
+  config:
+    import:
+      - optional:classpath:application-common.yaml
+      - optional:classpath:application-redis.yaml
+
+  data:
+    redis:
+      database: ${REDIS_DATABASE:14}

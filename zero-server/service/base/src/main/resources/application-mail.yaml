@@ -1,0 +1,8 @@
+spring:
+
+  mail:
+    protocol: ${MAIL_PROTOCOL:smtps}
+    host: ${MAIL_HOST:smtp.exmail.qq.com}
+    port: ${MAIL_PORT:465}
+    username: ${MAIL_USERNAME:daodao@ice.run}
+    password: ${MAIL_PASSWORD:}

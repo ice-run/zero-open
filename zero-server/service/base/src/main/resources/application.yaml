@@ -1,0 +1,20 @@
+spring:
+
+  application:
+    name: ${APPLICATION:base}
+
+  config:
+    import:
+      - optional:classpath:application-common.yaml
+      - optional:classpath:application-mysql.yaml
+      - optional:classpath:application-redis.yaml
+      - optional:classpath:application-mail.yaml
+
+  data:
+    redis:
+      database: ${REDIS_DATABASE:2}
+
+zero:
+  captcha:
+    master-key:
+      enabled: ${ZERO_CAPTCHA_MASTER_KEY_ENABLED:false}

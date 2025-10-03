@@ -1,0 +1,55 @@
+spring:
+
+  application:
+    name: ${APPLICATION:gateway}
+
+  config:
+    import:
+      - optional:classpath:application-common-local.yaml
+      - optional:classpath:application-redis-local.yaml
+
+  data:
+    redis:
+      database: ${REDIS_DATABASE:14}
+
+  cloud:
+
+    kubernetes:
+      config:
+        enabled: false
+      discovery:
+        enabled: false
+
+    gateway:
+      server:
+        webflux:
+          httpclient:
+            response-timeout: 10s
+          routes:
+            - id: demo
+              uri: http://localhost:8001
+              predicates:
+                - Path=/demo/**
+              filters:
+                - StripPrefix=1
+
+            - id: auth
+              uri: http://localhost:8011
+              predicates:
+                - Path=/auth/**
+              filters:
+                - StripPrefix=1
+
+            - id: base
+              uri: http://localhost:8011
+              predicates:
+                - Path=/base/**
+              filters:
+                - StripPrefix=1
+
+zero:
+
+  white-list:
+    uri:
+      - /**
+

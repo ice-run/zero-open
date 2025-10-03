@@ -1,0 +1,38 @@
+spring:
+
+  cloud:
+
+    kubernetes:
+      reload:
+        enabled: true
+      client:
+        namespace: ${NAMESPACE}
+      config:
+        enabled: true
+        namespace: ${NAMESPACE}
+        name: ${spring.application.name}
+      discovery:
+        enabled: true
+        namespaces:
+          - ${NAMESPACE}
+        service-labels:
+          framework: spring-boot
+
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          metrics:
+            enabled: true
+
+  threads:
+    virtual:
+      enabled: false
+
+management:
+  endpoint:
+    gateway:
+      access: read_only

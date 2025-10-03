@@ -1,0 +1,11 @@
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME:}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DATABASE:0}
+      #sentinel:
+      #  master: ${REDIS_SENTINEL_MASTER:mymaster}
+      #  nodes: ${REDIS_SENTINEL_NODES:sentinel-0:26379,sentinel-1:26379,sentinel-2:26379}

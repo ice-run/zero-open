@@ -1,0 +1,8 @@
+spring:
+
+  application:
+    name: ${APPLICATION:sba}
+
+  config:
+    import:
+      - optional:classpath:application-common.yaml
