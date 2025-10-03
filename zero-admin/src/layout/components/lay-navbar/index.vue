@@ -9,6 +9,7 @@ import LaySidebarBreadCrumb from "../lay-sidebar/components/SidebarBreadCrumb.vu
 import LaySidebarTopCollapse from "../lay-sidebar/components/SidebarTopCollapse.vue";
 
 import GlobalizationIcon from "@/assets/svg/globalization.svg?component";
+import AccountSettingsIcon from "~icons/ri/user-settings-line";
 import LogoutCircleRLine from "~icons/ri/logout-circle-r-line";
 import Setting from "~icons/ri/settings-3-line";
 import Check from "~icons/ep/check";
@@ -23,6 +24,7 @@ const {
   userAvatar,
   avatarsStyle,
   toggleSideBar,
+  toAccountSettings,
   getDropdownItemStyle,
   getDropdownItemClass
 } = useNav();
@@ -93,6 +95,13 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">
+            <el-dropdown-item @click="toAccountSettings">
+              <IconifyIconOffline
+                :icon="AccountSettingsIcon"
+                style="margin: 5px"
+              />
+              {{ t("buttons.pureAccountSettings") }}
+            </el-dropdown-item>
             <el-dropdown-item @click="logout">
               <IconifyIconOffline
                 :icon="LogoutCircleRLine"
@@ -134,6 +143,12 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
     min-width: 280px;
     height: 48px;
     color: #000000d9;
+    .dark & {
+      color: #fff;
+      :hover {
+        background-color: #242424;
+      }
+    }
 
     .el-dropdown-link {
       display: flex;
@@ -143,6 +158,12 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
       padding: 10px;
       color: #000000d9;
       cursor: pointer;
+      .dark & {
+        color: #fff;
+        :hover {
+          background-color: #242424;
+        }
+      }
 
       p {
         font-size: 14px;

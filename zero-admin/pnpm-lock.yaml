@@ -23,12 +23,18 @@ importers:
       '@vueuse/motion':
         specifier: ^3.0.3
         version: 3.0.3(vue@3.5.22(typescript@5.8.3))
+      '@zxcvbn-ts/core':
+        specifier: ^3.0.4
+        version: 3.0.4
       animate.css:
         specifier: ^4.1.1
         version: 4.1.1
       axios:
         specifier: ^1.11.0
         version: 1.12.2
+      cropperjs:
+        specifier: ^1.6.2
+        version: 1.6.2
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
@@ -1671,6 +1677,9 @@ packages:
   '@vueuse/shared@9.13.0':
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
 
+  '@zxcvbn-ts/core@3.0.4':
+    resolution: {integrity: sha512-aQeiT0F09FuJaAqNrxynlAwZ2mW/1MdXakKWNmGM1Qp/VaY6CnB/GfnMS2T8gB2231Esp1/maCWd8vTG4OuShw==}
+
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
     hasBin: true
@@ -1970,6 +1979,9 @@ packages:
     resolution: {integrity: sha512-ROmzCKrTnOwybPcJApAA6WBWij23HVfGVNKqqrZpuyZOHqK2CwHSvpGuyt/UNNvaIjEd8X5IFGp4Mh+Ie1IHJQ==}
     engines: {node: '>=0.8'}
     hasBin: true
+
+  cropperjs@1.6.2:
+    resolution: {integrity: sha512-nhymn9GdnV3CqiEHJVai54TULFAE3VshJTXSqSJKa8yXAKyBKDWdhHarnlIPrshJ0WMFTGuFvG02YjLXfPiuOA==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -5577,6 +5589,10 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
+  '@zxcvbn-ts/core@3.0.4':
+    dependencies:
+      fastest-levenshtein: 1.0.16
+
   JSONStream@1.3.5:
     dependencies:
       jsonparse: 1.3.1
@@ -5888,6 +5904,8 @@ snapshots:
       typescript: 5.8.3
 
   crc-32@1.2.2: {}
+
+  cropperjs@1.6.2: {}
 
   cross-spawn@7.0.6:
     dependencies:

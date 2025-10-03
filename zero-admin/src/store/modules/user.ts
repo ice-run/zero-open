@@ -93,6 +93,10 @@ export const useUserStore = defineStore("zero-user", {
         const oAuth2: OAuth2 = data;
         setToken(oAuth2);
       });
+      // await this.refresh();
+    },
+
+    async refresh() {
       await this.userInfo();
       await this.rolePermission();
     },

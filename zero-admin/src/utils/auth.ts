@@ -50,6 +50,18 @@ export const formatToken = (token: string): string => {
   return "Bearer " + token;
 };
 
+export const hasRole = (value: string | Array<string>): boolean => {
+  if (!value) return false;
+  const allRoles = "*";
+  const { roles } = useUserStoreHook();
+  if (!roles) return false;
+  if (roles.length === 1 && roles[0] === allRoles) return true;
+  const isAuths = isString(value)
+    ? roles.includes(value)
+    : isIncludeAllChildren(value, roles);
+  return isAuths ? true : false;
+};
+
 /** 是否有按钮级别的权限（根据登录接口返回的`permissions`字段进行判断）*/
 export const hasPerms = (value: string | Array<string>): boolean => {
   if (!value) return false;

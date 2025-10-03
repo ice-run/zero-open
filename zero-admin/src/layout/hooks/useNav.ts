@@ -40,16 +40,16 @@ export function useNav() {
 
   /** 头像（如果头像为空则使用 src/assets/avatar.png ） */
   const userAvatar = computed(() => {
-    return isAllEmpty(useUserStoreHook()?.avatar)
+    return isAllEmpty(useUserStoreHook()?.user?.avatar)
       ? Avatar
-      : useUserStoreHook()?.avatar;
+      : useUserStoreHook()?.user?.avatar;
   });
 
   /** 昵称（如果昵称为空则显示用户名） */
   const username = computed(() => {
-    return isAllEmpty(useUserStoreHook()?.nickname)
-      ? useUserStoreHook()?.username
-      : useUserStoreHook()?.nickname;
+    return isAllEmpty(useUserStoreHook()?.user?.nickname)
+      ? useUserStoreHook()?.user?.username
+      : useUserStoreHook()?.user?.nickname;
   });
 
   /** 设置国际化选中后的样式 */
@@ -107,6 +107,10 @@ export function useNav() {
 
   function onPanel() {
     emitter.emit("openPanel");
+  }
+
+  function toAccountSettings() {
+    router.push({ name: "AccountSettings" });
   }
 
   function toggleSideBar() {
@@ -169,6 +173,7 @@ export function useNav() {
     userAvatar,
     avatarsStyle,
     tooltipEffect,
+    toAccountSettings,
     getDropdownItemStyle,
     getDropdownItemClass
   };

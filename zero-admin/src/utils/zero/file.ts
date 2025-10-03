@@ -6,9 +6,9 @@ import type { Request, Response } from "@/api";
 import type { FileData, FileParam } from "@/api/base/file";
 import { radixConvert } from "@/utils/zero/security";
 
-export const uploadUri = "/server/base/api/file-upload";
-export const downloadUri = "/server/base/api/file-download";
-export const viewUri = "/server/base/api/file-view";
+export const uploadUri = "/base/api/file-upload";
+export const downloadUri = "/base/api/file-download";
+export const viewUri = "/base/api/file-view";
 
 export async function upload(file: File): Promise<Response<FileData>> {
   const token = getToken();
