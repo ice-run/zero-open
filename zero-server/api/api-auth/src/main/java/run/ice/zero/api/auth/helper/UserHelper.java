@@ -80,11 +80,11 @@ public class UserHelper {
             responseEntity = restTemplate.exchange(requestEntity, typeReference);
         } catch (Exception e) {
             log.error("restTemplate.exchange error", e);
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, e);
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, e);
         }
         if (!responseEntity.getStatusCode().is2xxSuccessful() || null == responseEntity.getBody()) {
             log.error("restTemplate.exchange error : {}", responseEntity);
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, responseEntity.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, responseEntity.toString());
         }
         return (String) responseEntity.getBody().get("access_token");
     }

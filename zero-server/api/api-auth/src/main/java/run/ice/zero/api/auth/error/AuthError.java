@@ -12,7 +12,7 @@ import run.ice.zero.common.error.ErrorEnum;
 @AllArgsConstructor
 public enum AuthError implements ErrorEnum {
 
-    ERROR(code("01"), "用户服务异常"),
+    ERROR(code("01"), "auth 服务异常"),
     USER_NOT_EXIST(code("02"), "用户不存在"),
     USERNAME_ALREADY_EXIST(code("03"), "用户名已存在"),
     USER_PASSWORD_INCORRECT(code("04"), "密码错误，请输入正确的密码"),
@@ -20,7 +20,7 @@ public enum AuthError implements ErrorEnum {
     OLD_AND_NEW_PASSWORDS_CANNOT_BE_THE_SAME(code("05"), "新旧密码不可设置为一致"),
 
     LOGIN_CAPTCHA_ERROR(code("06"), "登录验证码错误"),
-    INVOKE_OAUTH2_EXCEPTION(code("07"), "调用 oauth2 服务异常"),
+    INVOKE_AUTH_EXCEPTION(code("07"), "调用 auth 服务异常"),
 
     ROLE_NOT_EXIST(code("08"), "角色不存在"),
     ROLE_NAME_ALREADY_EXIST(code("09"), "角色名称已经存在"),

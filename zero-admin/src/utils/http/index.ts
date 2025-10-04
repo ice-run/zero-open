@@ -75,7 +75,10 @@ class PureHttp {
           return config;
         }
         /** 请求白名单，放置一些不需要`token`的接口（通过设置请求白名单，防止`token`过期后再请求造成的死循环问题） */
-        const whiteList = ["/refresh-token", "/login"];
+        const whiteList = [
+          "/base/api/captcha-code",
+          "/auth/api/login"
+        ];
         return whiteList.some(url => config.url.endsWith(url))
           ? config
           : new Promise(resolve => {
@@ -86,7 +89,10 @@ class PureHttp {
                 }
                 resolve(config);
               } else {
-                resolve(config);
+                router.push("/login").then(r => {
+                  console.debug(r);
+                });
+                return;
               }
             });
       },

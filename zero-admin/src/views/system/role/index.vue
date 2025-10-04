@@ -114,9 +114,9 @@ onMounted(() => {
           class="w-[180px]!"
         />
       </el-form-item>
-      <el-form-item label="状态：" prop="status">
+      <el-form-item label="状态：" prop="valid">
         <el-select
-          v-model="form.status"
+          v-model="form.valid"
           placeholder="请选择状态"
           clearable
           class="w-[180px]!"
@@ -318,8 +318,8 @@ onMounted(() => {
           :check-strictly="!isLinkage"
           :filter-method="filterMethod"
         >
-          <template #default="{ node }">
-            <span>{{ transformI18n(node.label) }}</span>
+          <template #default="{ data }">
+            <span>{{ data.name }}</span>
           </template>
         </el-tree-v2>
       </div>

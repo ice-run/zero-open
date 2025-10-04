@@ -65,6 +65,7 @@ menus:
   pureHome: Home
   pureLogin: Login
   pureAbnormal: Abnormal Page
+  pureEmpty: Empty Page
   pureFourZeroFour: "404"
   pureFourZeroOne: "403"
   pureFive: "500"
@@ -73,6 +74,16 @@ menus:
   purePermissionButton: Button Permission
   purePermissionButtonRouter: Route return button permission
   purePermissionButtonLogin: Login interface return button permission
+  pureSysManagement: System Manage
+  pureUser: User Manage
+  pureRole: Role Manage
+  pureSystemMenu: Menu Manage
+  pureDept: Dept Manage
+  pureSysMonitor: System Monitor
+  pureOnlineUser: Online User
+  pureLoginLog: Login Log
+  pureOperationLog: Operation Log
+  pureSystemLog: System Log
 status:
   pureLoad: Loading...
   pureMessage: Message

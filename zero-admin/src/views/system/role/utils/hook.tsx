@@ -9,14 +9,17 @@ import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { getKeyList, deviceDetection } from "@pureadmin/utils";
-import { getRoleList, getRoleMenu, getRoleMenuIds } from "@/api/system";
+import { roleSearch } from "@/api/auth/role";
 import { type Ref, reactive, ref, onMounted, h, toRaw, watch } from "vue";
+import { rolePermissionList } from "@/api/auth/rbac";
+import { permissionSearch } from "@/api/auth/permission";
+import { emptyToNull, listToTree } from "@/utils/zero/common";
 
 export function useRole(treeRef: Ref) {
   const form = reactive({
     name: "",
     code: "",
-    status: ""
+    valid: true
   });
   const curRow = ref();
   const formRef = ref();
@@ -146,7 +149,7 @@ export function useRole(treeRef: Ref) {
 
   function handleDelete(row) {
     message(`您删除了角色名称为${row.name}的这条数据`, { type: "success" });
-    onSearch();
+    onSearch().then(_ => {});
   }
 
   function handleSizeChange(val: number) {
@@ -163,11 +166,13 @@ export function useRole(treeRef: Ref) {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getRoleList(toRaw(form));
+    const { data } = await roleSearch({
+      param: { param: emptyToNull(toRaw(form)), size: 1000 }
+    });
     dataList.value = data.list;
     pagination.total = data.total;
-    pagination.pageSize = data.pageSize;
-    pagination.currentPage = data.currentPage;
+    pagination.pageSize = data.size;
+    pagination.currentPage = data.page;
 
     setTimeout(() => {
       loading.value = false;
@@ -204,7 +209,7 @@ export function useRole(treeRef: Ref) {
             type: "success"
           });
           done(); // 关闭弹框
-          onSearch(); // 刷新表格数据
+          onSearch().then(_ => {}); // 刷新表格数据
         }
         FormRef.validate(valid => {
           if (valid) {
@@ -229,8 +234,8 @@ export function useRole(treeRef: Ref) {
     if (id) {
       curRow.value = row;
       isShow.value = true;
-      const { data } = await getRoleMenuIds({ id });
-      treeRef.value.setCheckedKeys(data);
+      const { data } = await rolePermissionList({ param: { id } });
+      treeRef.value.setCheckedKeys(data.map(item => item.id));
     } else {
       curRow.value = null;
       isShow.value = false;
@@ -267,10 +272,12 @@ export function useRole(treeRef: Ref) {
   };
 
   onMounted(async () => {
-    onSearch();
-    const { data } = await getRoleMenu();
-    treeIds.value = getKeyList(data, "id");
-    treeData.value = handleTree(data);
+    onSearch().then(_ => {});
+    const { data } = await permissionSearch({
+      param: { size: 1000, param: {} }
+    });
+    treeIds.value = getKeyList(data.list, "id");
+    treeData.value = handleTree(listToTree(data.list));
   });
 
   watch(isExpandAll, val => {

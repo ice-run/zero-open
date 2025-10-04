@@ -23,12 +23,31 @@ export async function userRoleList(
   );
 }
 
+/** 查询角色的权限列表 */
+export async function rolePermissionList(
+  request: Request<IdParam>
+): Promise<Response<PermissionData[]>> {
+  return http.post<Request<IdParam>, Response<PermissionData[]>>(
+    `/auth/api/role-permission-list`,
+    { data: request }
+  );
+}
+
 /** 变更用户的角色 */
 export async function userRoleUpsert(
   request: Request<UserRoleUpsert>
 ): Promise<Response<Ok>> {
   return http.post<Request<UserRoleUpsert>, Response<Ok>>(
     `/auth/api/user-role-upsert`,
+    { data: request }
+  );
+}
+
+export async function rolePermissionUpsert(
+  request: Request<RolePermissionUpsert>
+): Promise<Response<Ok>> {
+  return http.post<Request<RolePermissionUpsert>, Response<Ok>>(
+    `/auth/api/role-permission-upsert`,
     { data: request }
   );
 }
@@ -45,6 +64,15 @@ export type UserRoleUpsert = {
   userId: string;
   /** 角色 ID */
   roleId: string;
+  /** 是否有效 */
+  valid?: boolean;
+};
+
+export type RolePermissionUpsert = {
+  /** 角色 ID */
+  roleId: string;
+  /** 权限 ID */
+  permissionId: string;
   /** 是否有效 */
   valid?: boolean;
 };

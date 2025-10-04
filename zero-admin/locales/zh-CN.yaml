@@ -65,6 +65,7 @@ menus:
   pureHome: 首页
   pureLogin: 登录
   pureAbnormal: 异常页面
+  pureEmpty: 无Layout页
   pureFourZeroFour: "404"
   pureFourZeroOne: "403"
   pureFive: "500"
@@ -73,6 +74,16 @@ menus:
   purePermissionButton: 按钮权限
   purePermissionButtonRouter: 路由返回按钮权限
   purePermissionButtonLogin: 登录接口返回按钮权限
+  pureSysManagement: 系统管理
+  pureUser: 用户管理
+  pureRole: 角色管理
+  pureSystemMenu: 菜单管理
+  pureDept: 部门管理
+  pureSysMonitor: 系统监控
+  pureOnlineUser: 在线用户
+  pureLoginLog: 登录日志
+  pureOperationLog: 操作日志
+  pureSystemLog: 系统日志
 status:
   pureLoad: 加载中...
   pureMessage: 消息

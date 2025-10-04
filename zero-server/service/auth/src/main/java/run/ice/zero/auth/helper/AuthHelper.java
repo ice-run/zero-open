@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import run.ice.zero.api.auth.error.AuthError;
 import run.ice.zero.api.auth.model.oauth2.OAuth2;
+import run.ice.zero.common.error.AppError;
 import run.ice.zero.common.error.AppException;
 
 import java.net.URI;
@@ -39,11 +40,11 @@ public class AuthHelper {
         Map<String, Object> body = introspect(token);
         Object active = body.get("active");
         if (!Boolean.TRUE.equals(active)) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, body.toString());
+            throw new AppException(AppError.TOKEN_ERROR, body.toString());
         }
         String sub = (String) body.get("sub");
         if (null == sub) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, body.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, body.toString());
         }
         return sub;
     }
@@ -67,15 +68,15 @@ public class AuthHelper {
             responseEntity = restTemplate.exchange(requestEntity, typeReference);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, e.getMessage());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, e.getMessage());
         }
         HttpStatusCode httpStatusCode = responseEntity.getStatusCode();
         if (!httpStatusCode.is2xxSuccessful()) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, httpStatusCode.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, httpStatusCode.toString());
         }
         OAuth2 responseBody = responseEntity.getBody();
         if (null == responseBody) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, responseEntity.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, responseEntity.toString());
         }
         return responseBody;
     }
@@ -98,15 +99,15 @@ public class AuthHelper {
             responseEntity = restTemplate.exchange(requestEntity, typeReference);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, e.getMessage());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, e.getMessage());
         }
         HttpStatusCode httpStatusCode = responseEntity.getStatusCode();
         if (!httpStatusCode.is2xxSuccessful()) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, httpStatusCode.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, httpStatusCode.toString());
         }
         OAuth2 responseBody = responseEntity.getBody();
         if (null == responseBody) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, responseEntity.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, responseEntity.toString());
         }
         return responseBody;
     }
@@ -127,11 +128,11 @@ public class AuthHelper {
             responseEntity = restTemplate.exchange(requestEntity, typeReference);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, e.getMessage());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, e.getMessage());
         }
         HttpStatusCode httpStatusCode = responseEntity.getStatusCode();
         if (!httpStatusCode.is2xxSuccessful()) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, httpStatusCode.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, httpStatusCode.toString());
         }
     }
 
@@ -150,15 +151,15 @@ public class AuthHelper {
             responseEntity = restTemplate.exchange(requestEntity, typeReference);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, e.getMessage());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, e.getMessage());
         }
         HttpStatusCode httpStatusCode = responseEntity.getStatusCode();
         if (!httpStatusCode.is2xxSuccessful()) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, httpStatusCode.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, httpStatusCode.toString());
         }
         Map<String, Object> responseBody = responseEntity.getBody();
         if (null == responseBody) {
-            throw new AppException(AuthError.INVOKE_OAUTH2_EXCEPTION, responseEntity.toString());
+            throw new AppException(AuthError.INVOKE_AUTH_EXCEPTION, responseEntity.toString());
         }
         return responseBody;
     }
