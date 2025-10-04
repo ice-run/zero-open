@@ -153,6 +153,23 @@ CREATE TABLE `rbac_role_permission`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin COMMENT ='角色权限';
 
+CREATE TABLE `rbac_group`
+(
+    `id`          bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `parent_id`   bigint unsigned NOT NULL DEFAULT '0' COMMENT '父级 id，0 表示顶级',
+    `name`        varchar(64)     NOT NULL COMMENT '名称',
+    `admin_id`    bigint unsigned NOT NULL COMMENT '管理员 id',
+    `create_time` datetime                 DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `valid`       tinyint(1)      NOT NULL DEFAULT '1' COMMENT '是否有效：1有效，0无效',
+    PRIMARY KEY (`id`),
+    KEY `parent_id` (`parent_id`),
+    UNIQUE KEY `name` (`name`),
+    KEY `admin_id` (`admin_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin COMMENT ='组织架构';
+
 INSERT INTO rbac_user (username, password, create_time, update_time, valid)
 VALUES ('admin', '{bcrypt}$2a$10$mATi3BkTD59cTEeTvBCiduGzoB2PooohWUjerUfi2jIfRpQj/7E1a', DEFAULT, DEFAULT, DEFAULT);
 INSERT INTO rbac_role (code, name, create_time, update_time, valid)

@@ -21,34 +21,22 @@ import java.util.List;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(schema = "zero_open", name = "rbac_user")
-public class User implements Serializer {
+@Table(schema = "zero_open", name = "rbac_group")
+public class Group implements Serializer {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "parent_id")
+    private Long parentId;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "nickname")
-    private String nickname;
-
-    @Column(name = "avatar")
-    private String avatar;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "group_id")
-    private Long groupId;
+    @Column(name = "admin_id")
+    private Long adminId;
 
     @Column(name = "create_time")
     private LocalDateTime createTime;
@@ -79,21 +67,15 @@ public class User implements Serializer {
         updateTime = LocalDateTime.now();
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
     @JsonIgnore
     @ToString.Exclude
-    private List<UserRole> userRoles;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "zero_open", name = "rbac_user_role", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @JsonIgnore
-    @ToString.Exclude
-    private List<Role> roles;
+    private List<User> users;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "admin_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     @ToString.Exclude
-    private Group group;
+    private User admin;
 
 }

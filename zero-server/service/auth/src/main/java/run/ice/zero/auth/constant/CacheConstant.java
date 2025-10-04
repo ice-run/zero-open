@@ -12,6 +12,8 @@ public class CacheConstant {
 
     public static final String USER = PREFIX + "user" + DELIMITER;
 
+    public static final String GROUP = PREFIX + "group" + DELIMITER;
+
     private CacheConstant() {
     }
 

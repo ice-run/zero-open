@@ -1,6 +1,8 @@
 package run.ice.zero.auth.service;
 
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.*;
@@ -11,7 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ice.zero.api.auth.error.AuthError;
 import run.ice.zero.api.auth.model.user.UserData;
 import run.ice.zero.api.auth.model.user.UserSearch;
+import run.ice.zero.api.auth.model.user.UserUpdate;
 import run.ice.zero.api.auth.model.user.UserUpsert;
+import run.ice.zero.api.base.model.file.FileData;
+import run.ice.zero.api.base.model.file.FileParam;
+import run.ice.zero.auth.helper.BaseHelper;
 import run.ice.zero.common.error.AppError;
 import run.ice.zero.common.error.AppException;
 import run.ice.zero.common.model.IdParam;
@@ -47,6 +53,9 @@ public class UserService {
 
     @Resource
     private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private BaseHelper baseHelper;
 
     public UserData userInfo(String authorization) {
         if (null == authorization || authorization.isEmpty()) {
@@ -149,6 +158,34 @@ public class UserService {
             return target;
         }).toList();
         return new PageData<>(page, size, total, list);
+    }
+
+    public UserData userUpdate(String authorization, @Valid @NotNull UserUpdate param) {
+        if (null == authorization || authorization.isEmpty()) {
+            throw new AppException(AppError.TOKEN_ERROR);
+        }
+        String username = authHelper.username(authorization.replace("Bearer ", ""));
+        Optional<User> optional = userRepository.findByUsername(username);
+        if (optional.isEmpty()) {
+            throw new AppException(AuthError.USER_NOT_EXIST, username);
+        }
+        User user = optional.get();
+        String nickname = param.getNickname();
+        if (null != nickname && !nickname.isEmpty()) {
+            user.setNickname(nickname);
+        }
+        String avatar = param.getAvatar();
+        if (null != avatar && !avatar.isEmpty()) {
+            FileParam fileParam = new FileParam();
+            fileParam.setId(avatar);
+            FileData fileData = baseHelper.fileInfo(fileParam);
+            assert null != fileData;
+            user.setAvatar(avatar);
+        }
+        user = userRepository.save(user);
+        UserData data = new UserData();
+        BeanUtils.copyProperties(user, data);
+        return data;
     }
 
 }

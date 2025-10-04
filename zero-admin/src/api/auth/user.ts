@@ -89,4 +89,8 @@ export type UserUpdate = {
   nickname?: string;
   /** 头像 */
   avatar?: string;
+  /** phone 手机 */
+  phone?: string;
+  /** email 邮箱 */
+  email?: string;
 };

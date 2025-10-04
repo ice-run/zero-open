@@ -1,4 +1,4 @@
-package run.ice.zero.api.auth.model.role;
+package run.ice.zero.api.auth.model.group;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
  * @author DaoDao
  */
 @Data
-@Schema(title = "RoleData", description = "角色数据")
-public class RoleData implements Serializer {
+@Schema(title = "GroupData", description = "组织响应信息")
+public class GroupData implements Serializer {
 
     @Schema(title = "id", description = "id", example = "1")
     @NotNull
@@ -24,24 +24,37 @@ public class RoleData implements Serializer {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @Schema(title = "name", description = "角色名称 : 名命中的层级分组使用 -- 隔开", example = "超级管理员")
+    @Schema(title = "parentId", description = "父组织id", example = "1")
+    @Min(value = 1)
+    @Max(value = Long.MAX_VALUE)
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long parentId;
+
+    @Schema(title = "name", description = "组织名称", example = "管理组")
     @NotEmpty
     @Size(min = 1, max = 64)
     private String name;
 
-    @Schema(title = "code", description = "角色代码：编码单词使用 - 隔开，层级分组使用 : 隔开", example = "admin")
-    @NotEmpty
+    @Schema(title = "adminId", description = "管理员id", example = "1")
+    @Min(value = 1)
+    @Max(value = Long.MAX_VALUE)
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long adminId;
+
+    @Schema(title = "adminName", description = "管理员名称", example = "DaoDao")
     @Size(min = 1, max = 64)
-    @Pattern(regexp = "^(?!:)[a-z0-9\\-:]+(?<!:)$")
-    private String code;
+    private String adminName;
 
     @Schema(title = "createTime", description = "创建时间", example = AppConstant.DATE_TIME_EXAMPLE)
+    @NotNull
     private LocalDateTime createTime;
 
     @Schema(title = "updateTime", description = "更新时间", example = AppConstant.DATE_TIME_EXAMPLE)
+    @NotNull
     private LocalDateTime updateTime;
 
     @Schema(title = "valid", description = "是否有效", example = "true")
+    @NotNull
     private Boolean valid;
 
 }

@@ -24,12 +24,12 @@ public class PermissionData implements Serializer {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @Schema(name = "name", description = "权限名称：名命中的层级分组使用 -- 隔开", example = "超级管理")
+    @Schema(title = "name", description = "权限名称：名命中的层级分组使用 -- 隔开", example = "超级管理")
     @NotEmpty
     @Size(min = 1, max = 64)
     private String name;
 
-    @Schema(name = "code", description = "权限代码：编码单词使用 - 隔开，层级分组使用 : 隔开", example = "admin")
+    @Schema(title = "code", description = "权限代码：编码单词使用 - 隔开，层级分组使用 : 隔开", example = "admin")
     @NotEmpty
     @Size(min = 1, max = 64)
     @Pattern(regexp = "^(?!:)[a-z0-9\\-:]+(?<!:)$")

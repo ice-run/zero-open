@@ -43,6 +43,9 @@ public enum AuthError implements ErrorEnum {
     USERNAME_NOT_EXIST(code("24"), "用户名不存在"),
     USER_ID_NOT_EXIST(code("25"), "用户 ID 不存在"),
 
+    GROUP_NOT_EXIST(code("26"), "组织不存在"),
+    GROUP_NAME_ALREADY_EXIST(code("27"), "组织名称已经存在"),
+
     ;
 
     /**

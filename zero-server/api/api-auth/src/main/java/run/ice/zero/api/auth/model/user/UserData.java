@@ -30,6 +30,28 @@ public class UserData implements Serializer {
     @Pattern(regexp = "^[0-9A-Za-z_-]{4,32}$")
     private String username;
 
+    @Schema(title = "nickname", description = "昵称", example = "管理员")
+    @Size(min = 2, max = 32)
+    private String nickname;
+
+    @Schema(title = "avatar", description = "头像", example = "1")
+    @Size(min = 2, max = 32)
+    private String avatar;
+
+    @Schema(title = "email", description = "邮箱", example = "admin@example.com")
+    @Email
+    private String email;
+
+    @Schema(title = "phone", description = "手机号", example = "13800000000")
+    @Pattern(regexp = "^1[3-9]\\d{9}$")
+    private String phone;
+
+    @Schema(title = "groupId", description = "组id", example = "1")
+    @Min(value = 1)
+    @Max(value = Long.MAX_VALUE)
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long groupId;
+
     @Schema(title = "createTime", description = "创建时间", example = AppConstant.DATE_TIME_EXAMPLE)
     @NotNull
     private LocalDateTime createTime;

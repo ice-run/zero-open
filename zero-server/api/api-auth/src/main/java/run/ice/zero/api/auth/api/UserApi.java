@@ -10,6 +10,7 @@ import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 import run.ice.zero.api.auth.model.user.UserData;
 import run.ice.zero.api.auth.model.user.UserSearch;
+import run.ice.zero.api.auth.model.user.UserUpdate;
 import run.ice.zero.api.auth.model.user.UserUpsert;
 import run.ice.zero.common.constant.AppConstant;
 import run.ice.zero.common.model.*;
@@ -24,6 +25,10 @@ public interface UserApi {
     @Operation(summary = "用户信息", description = "header 中传入 token 信息，获取用户信息")
     @PostExchange(url = "user-info")
     Response<UserData> userInfo(@RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authorization, @RequestBody @Valid Request<No> request);
+
+    @Operation(summary = "用户更新", description = "用户更新自己的信息")
+    @PostExchange(url = "user-update")
+    Response<UserData> userUpdate(@RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authorization, @RequestBody @Valid Request<UserUpdate> request);
 
     @Operation(summary = "查询用户", description = "传入 id 查询用户信息")
     @PostExchange(url = "user-select")

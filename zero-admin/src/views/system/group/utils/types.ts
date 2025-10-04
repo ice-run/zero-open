@@ -1,13 +1,7 @@
-interface FormItemProps {
-  higherDeptOptions: Record<string, unknown>[];
-  parentId: number;
-  name: string;
-  principal: string;
-  phone: string | number;
-  email: string;
-  sort: number;
-  status: number;
-  remark: string;
+import type { GroupUpsert } from "@/api/auth/group";
+
+interface FormItemProps extends GroupUpsert {
+  higherGroupOptions: Record<string, unknown>[];
 }
 interface FormProps {
   formInline: FormItemProps;

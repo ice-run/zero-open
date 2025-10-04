@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useDept } from "./utils/hook";
+import { useGroup } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
@@ -25,7 +25,7 @@ const {
   openDialog,
   handleDelete,
   handleSelectionChange
-} = useDept();
+} = useGroup();
 
 function onFullscreen() {
   // 重置表格高度
@@ -41,28 +41,29 @@ function onFullscreen() {
       :model="form"
       class="search-form bg-bg_color w-full pl-8 pt-[12px] overflow-auto"
     >
-      <el-form-item label="部门名称：" prop="name">
+      <el-form-item label="组织名称：" prop="name">
         <el-input
           v-model="form.name"
-          placeholder="请输入部门名称"
+          placeholder="请输入组织名称"
           clearable
           class="w-[180px]!"
         />
       </el-form-item>
-      <el-form-item label="状态：" prop="status">
+      <el-form-item label="状态：" prop="valid">
         <el-select
-          v-model="form.status"
+          v-model="form.valid"
           placeholder="请选择状态"
           clearable
           class="w-[180px]!"
         >
-          <el-option label="启用" :value="1" />
-          <el-option label="停用" :value="0" />
+          <el-option label="启用" :value="true" />
+          <el-option label="停用" :value="false" />
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
+          plain
           :icon="useRenderIcon('ri/search-line')"
           :loading="loading"
           @click="onSearch"
@@ -76,7 +77,7 @@ function onFullscreen() {
     </el-form>
 
     <PureTableBar
-      title="部门管理"
+      title="组织管理"
       :columns="columns"
       :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
@@ -84,11 +85,12 @@ function onFullscreen() {
     >
       <template #buttons>
         <el-button
-          type="primary"
+          type="success"
+          plain
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
         >
-          新增部门
+          新增
         </el-button>
       </template>
       <template v-slot="{ size, dynamicColumns }">
@@ -115,7 +117,7 @@ function onFullscreen() {
             <el-button
               class="reset-margin"
               link
-              type="primary"
+              type="warning"
               :size="size"
               :icon="useRenderIcon(EditPen)"
               @click="openDialog('修改', row)"
@@ -125,7 +127,7 @@ function onFullscreen() {
             <el-button
               class="reset-margin"
               link
-              type="primary"
+              type="success"
               :size="size"
               :icon="useRenderIcon(AddFill)"
               @click="openDialog('新增', { parentId: row.id } as any)"
@@ -133,14 +135,14 @@ function onFullscreen() {
               新增
             </el-button>
             <el-popconfirm
-              :title="`是否确认删除部门名称为${row.name}的这条数据`"
+              :title="`是否确认删除组织名称为${row.name}的这条数据`"
               @confirm="handleDelete(row)"
             >
               <template #reference>
                 <el-button
                   class="reset-margin"
                   link
-                  type="primary"
+                  type="danger"
                   :size="size"
                   :icon="useRenderIcon(Delete)"
                 >

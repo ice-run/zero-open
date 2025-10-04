@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import run.ice.zero.api.auth.api.UserApi;
 import run.ice.zero.api.auth.model.user.UserData;
 import run.ice.zero.api.auth.model.user.UserSearch;
+import run.ice.zero.api.auth.model.user.UserUpdate;
 import run.ice.zero.api.auth.model.user.UserUpsert;
 import run.ice.zero.common.model.*;
 import run.ice.zero.auth.service.UserService;
@@ -21,6 +22,12 @@ public class UserController implements UserApi {
     @Override
     public Response<UserData> userInfo(String authorization, Request<No> request) {
         UserData data = userService.userInfo(authorization);
+        return new Response<>(data);
+    }
+
+    @Override
+    public Response<UserData> userUpdate(String authorization, Request<UserUpdate> request) {
+        UserData data = userService.userUpdate(authorization, request.getParam());
         return new Response<>(data);
     }
 

@@ -1,10 +1,7 @@
 package run.ice.zero.api.auth.model.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import run.ice.zero.common.model.Serializer;
 import tools.jackson.databind.annotation.JsonSerialize;
@@ -28,6 +25,24 @@ public class UserSearch implements Serializer {
     @Pattern(regexp = "^[0-9A-Za-z_-]{4,32}$")
     private String username;
 
+    @Schema(title = "nickname", description = "昵称", example = "管理员")
+    @Size(min = 2, max = 32)
+    private String nickname;
+
+    @Schema(title = "email", description = "邮箱", example = "admin@example.com")
+    @Email
+    private String email;
+
+    @Schema(title = "phone", description = "手机号", example = "13800000000")
+    @Pattern(regexp = "^1[3-9]\\d{9}$")
+    private String phone;
+
+    @Schema(title = "groupId", description = "组id", example = "1")
+    @Min(value = 1)
+    @Max(value = Long.MAX_VALUE)
+    @JsonSerialize(using = ToStringSerializer.class)
+
+    private Long groupId;
     @Schema(title = "valid", description = "是否有效", example = "true")
     private Boolean valid;
 

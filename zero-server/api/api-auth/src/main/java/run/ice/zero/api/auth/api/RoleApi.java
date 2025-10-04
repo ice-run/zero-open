@@ -15,7 +15,7 @@ import run.ice.zero.common.model.*;
 /**
  * @author DaoDao
  */
-@Tag(name = "角色", description = "用户服务 角色")
+@Tag(name = "角色", description = "角色接口")
 @HttpExchange(url = AppConstant.API)
 public interface RoleApi {
 

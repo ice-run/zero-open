@@ -15,7 +15,7 @@ import run.ice.zero.common.model.*;
 /**
  * @author DaoDao
  */
-@Tag(name = "权限", description = "用户服务 权限")
+@Tag(name = "权限", description = "权限接口")
 @HttpExchange(url = AppConstant.API)
 public interface PermissionApi {
 
