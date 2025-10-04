@@ -3,7 +3,6 @@ import { store, router, resetRouter, routerArrays } from "../utils";
 import { useMultiTagsStoreHook } from "./multiTags";
 import {
   setToken,
-  removeToken,
   getUser,
   getRoles,
   getPermissions,
@@ -11,9 +10,7 @@ import {
   setRoles,
   setPermissions,
   getToken,
-  removeUser,
-  removeRoles,
-  removePermissions
+  clearAuth
 } from "@/utils/auth";
 import { type Login, login, logout, type OAuth2 } from "@/api/auth/oauth2";
 import { type UserData, userInfo } from "@/api/auth/user";
@@ -122,13 +119,10 @@ export const useUserStore = defineStore("zero-user", {
     /** 前端登出（不调用接口） */
     async logout() {
       await logout({ param: {} });
-      removeToken();
       this.user = null as unknown as UserData;
       this.roles = null as unknown as string[];
       this.permissions = null as unknown as string[];
-      removeUser();
-      removeRoles();
-      removePermissions();
+      clearAuth();
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();
       await router.push("/login");

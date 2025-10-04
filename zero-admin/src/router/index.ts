@@ -24,7 +24,7 @@ import {
   type RouteComponent,
   createRouter
 } from "vue-router";
-import { removeToken } from "@/utils/auth";
+import { clearAuth } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
 import type { UserData } from "@/api/auth/user";
 
@@ -192,7 +192,7 @@ router.beforeEach(async (to: ToRouteType, _from, next) => {
       if (whiteList.indexOf(to.path) !== -1) {
         next();
       } else {
-        removeToken();
+        clearAuth();
         next({ path: "/login" });
       }
     } else {

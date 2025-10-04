@@ -157,3 +157,10 @@ export function setPermissions(permissions: string[]) {
 export function removePermissions() {
   localStorage.removeItem(PERMISSIONS);
 }
+
+export function clearAuth() {
+  removeToken();
+  removeUser();
+  removeRoles();
+  removePermissions();
+}

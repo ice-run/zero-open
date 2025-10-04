@@ -11,7 +11,7 @@ import type {
 } from "./types.d";
 import { stringify } from "qs";
 import NProgress from "../progress";
-import { getToken, formatToken, removeToken } from "@/utils/auth";
+import { getToken, formatToken, clearAuth } from "@/utils/auth";
 // import { useUserStoreHook } from "@/store/modules/user";
 import { router } from "@/router";
 import { ElNotification } from "element-plus";
@@ -77,7 +77,8 @@ class PureHttp {
         /** 请求白名单，放置一些不需要`token`的接口（通过设置请求白名单，防止`token`过期后再请求造成的死循环问题） */
         const whiteList = [
           "/base/api/captcha-code",
-          "/auth/api/login"
+          "/auth/api/login",
+          "/auth/api/refresh-token"
         ];
         return whiteList.some(url => config.url.endsWith(url))
           ? config
@@ -89,9 +90,11 @@ class PureHttp {
                 }
                 resolve(config);
               } else {
+                clearAuth();
                 router.push("/login").then(r => {
                   console.debug(r);
                 });
+                resolve(config);
                 return;
               }
             });
@@ -130,7 +133,7 @@ class PureHttp {
               type: "error"
             });
             if (code === "1111") {
-              removeToken();
+              clearAuth();
               router.push("/login").then(r => {
                 console.debug(r);
               });

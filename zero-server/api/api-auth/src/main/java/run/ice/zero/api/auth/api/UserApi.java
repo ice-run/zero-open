@@ -23,7 +23,7 @@ public interface UserApi {
 
     @Operation(summary = "用户信息", description = "header 中传入 token 信息，获取用户信息")
     @PostExchange(url = "user-info")
-    Response<UserData> userInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestBody @Valid Request<No> request);
+    Response<UserData> userInfo(@RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authorization, @RequestBody @Valid Request<No> request);
 
     @Operation(summary = "查询用户", description = "传入 id 查询用户信息")
     @PostExchange(url = "user-select")

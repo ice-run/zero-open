@@ -12,6 +12,7 @@ import run.ice.zero.api.auth.error.AuthError;
 import run.ice.zero.api.auth.model.user.UserData;
 import run.ice.zero.api.auth.model.user.UserSearch;
 import run.ice.zero.api.auth.model.user.UserUpsert;
+import run.ice.zero.common.error.AppError;
 import run.ice.zero.common.error.AppException;
 import run.ice.zero.common.model.IdParam;
 import run.ice.zero.common.model.PageData;
@@ -48,6 +49,9 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public UserData userInfo(String authorization) {
+        if (null == authorization || authorization.isEmpty()) {
+            throw new AppException(AppError.TOKEN_ERROR);
+        }
         String username = authHelper.username(authorization.replace("Bearer ", ""));
         Optional<User> optional = userRepository.findByUsername(username);
         if (optional.isEmpty()) {

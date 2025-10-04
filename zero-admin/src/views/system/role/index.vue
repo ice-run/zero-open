@@ -106,10 +106,10 @@ onMounted(() => {
           class="w-[180px]!"
         />
       </el-form-item>
-      <el-form-item label="角色标识：" prop="code">
+      <el-form-item label="角色编码：" prop="code">
         <el-input
           v-model="form.code"
-          placeholder="请输入角色标识"
+          placeholder="请输入角色编码"
           clearable
           class="w-[180px]!"
         />
@@ -128,6 +128,7 @@ onMounted(() => {
       <el-form-item>
         <el-button
           type="primary"
+          plain
           :icon="useRenderIcon('ri/search-line')"
           :loading="loading"
           @click="onSearch"
@@ -147,17 +148,18 @@ onMounted(() => {
       <PureTableBar
         :class="[isShow && !deviceDetection() ? 'w-[60vw]!' : 'w-full']"
         style="transition: width 220ms cubic-bezier(0.4, 0, 0.2, 1)"
-        title="角色管理（仅演示，操作后不生效）"
+        title="角色管理"
         :columns="columns"
         @refresh="onSearch"
       >
         <template #buttons>
           <el-button
-            type="primary"
+            type="success"
+            plain
             :icon="useRenderIcon(AddFill)"
             @click="openDialog()"
           >
-            新增角色
+            新增
           </el-button>
         </template>
         <template v-slot="{ size, dynamicColumns }">
@@ -186,7 +188,7 @@ onMounted(() => {
               <el-button
                 class="reset-margin"
                 link
-                type="primary"
+                type="warning"
                 :size="size"
                 :icon="useRenderIcon(EditPen)"
                 @click="openDialog('修改', row)"
@@ -201,7 +203,7 @@ onMounted(() => {
                   <el-button
                     class="reset-margin"
                     link
-                    type="primary"
+                    type="danger"
                     :size="size"
                     :icon="useRenderIcon(Delete)"
                   >
@@ -238,7 +240,7 @@ onMounted(() => {
                       :icon="useRenderIcon(Menu)"
                       @click="handleMenu"
                     >
-                      菜单权限
+                      角色权限
                     </el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
@@ -282,7 +284,7 @@ onMounted(() => {
             <span :class="[iconClass, 'ml-2']">
               <IconifyIconOffline
                 v-tippy="{
-                  content: '保存菜单权限'
+                  content: '保存角色权限'
                 }"
                 class="dark:text-white"
                 width="18px"
@@ -293,7 +295,7 @@ onMounted(() => {
             </span>
           </div>
           <p class="font-bold truncate">
-            菜单权限
+            角色权限
             {{ `${curRow?.name ? `（${curRow.name}）` : ""}` }}
           </p>
         </div>

@@ -86,7 +86,7 @@ const {
     </el-form>
 
     <PureTableBar
-      title="登录日志（仅演示，操作后不生效）"
+      title="登录日志"
       :columns="columns"
       @refresh="onSearch"
     >
