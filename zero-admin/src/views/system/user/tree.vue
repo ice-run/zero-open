@@ -2,7 +2,7 @@
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { ref, computed, watch, getCurrentInstance } from "vue";
 
-import Dept from "~icons/ri/git-branch-line";
+import Group from "~icons/ri/git-branch-line";
 // import Reset from "~icons/ri/restart-line";
 import More2Fill from "~icons/ri/more-2-fill?width=18&height=18";
 import OfficeBuilding from "~icons/ep/office-building";
@@ -79,7 +79,7 @@ function toggleRowExpansionAll(status) {
   }
 }
 
-/** 重置部门树状态（选中状态、搜索框值、树初始化） */
+/** 重置组织树状态（选中状态、搜索框值、树初始化） */
 function onTreeReset() {
   highlightMap.value = {};
   searchValue.value = "";
@@ -104,7 +104,7 @@ defineExpose({ onTreeReset });
         v-model="searchValue"
         class="ml-2"
         size="small"
-        placeholder="请输入部门名称"
+        placeholder="请输入组织名称"
         clearable
       >
         <template #suffix>
@@ -187,7 +187,7 @@ defineExpose({ onTreeReset });
                   ? OfficeBuilding
                   : data.type === 2
                     ? LocationCompany
-                    : Dept
+                    : Group
               "
             />
             <span class="w-[120px]! truncate!" :title="node.label">

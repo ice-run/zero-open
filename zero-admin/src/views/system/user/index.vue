@@ -98,6 +98,7 @@ const {
         <el-form-item>
           <el-button
             type="primary"
+            plain
             :icon="useRenderIcon('ri/search-line')"
             :loading="loading"
             @click="onSearch"
@@ -110,18 +111,15 @@ const {
         </el-form-item>
       </el-form>
 
-      <PureTableBar
-        title="用户管理"
-        :columns="columns"
-        @refresh="onSearch"
-      >
+      <PureTableBar title="用户管理" :columns="columns" @refresh="onSearch">
         <template #buttons>
           <el-button
-            type="primary"
+            type="success"
+            plain
             :icon="useRenderIcon(AddFill)"
             @click="openDialog()"
           >
-            新增用户
+            新增
           </el-button>
         </template>
         <template v-slot="{ size, dynamicColumns }">
@@ -173,7 +171,7 @@ const {
               <el-button
                 class="reset-margin"
                 link
-                type="primary"
+                type="warning"
                 :size="size"
                 :icon="useRenderIcon(EditPen)"
                 @click="openDialog('修改', row)"
@@ -181,14 +179,14 @@ const {
                 修改
               </el-button>
               <el-popconfirm
-                :title="`是否确认删除用户编号为${row.id}的这条数据`"
+                :title="`是否确认删除 ID 为${row.id}的这条数据`"
                 @confirm="handleDelete(row)"
               >
                 <template #reference>
                   <el-button
                     class="reset-margin"
                     link
-                    type="primary"
+                    type="danger"
                     :size="size"
                     :icon="useRenderIcon(Delete)"
                   >
@@ -200,25 +198,13 @@ const {
                 <el-button
                   class="ml-3! mt-[2px]!"
                   link
-                  type="primary"
+                  type="danger"
                   :size="size"
                   :icon="useRenderIcon(More)"
                   @click="handleUpdate(row)"
                 />
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item>
-                      <el-button
-                        :class="buttonClass"
-                        link
-                        type="primary"
-                        :size="size"
-                        :icon="useRenderIcon(Upload)"
-                        @click="handleUpload(row)"
-                      >
-                        上传头像
-                      </el-button>
-                    </el-dropdown-item>
                     <el-dropdown-item>
                       <el-button
                         :class="buttonClass"
@@ -235,7 +221,7 @@ const {
                       <el-button
                         :class="buttonClass"
                         link
-                        type="primary"
+                        type="warning"
                         :size="size"
                         :icon="useRenderIcon(Role)"
                         @click="handleRole(row)"

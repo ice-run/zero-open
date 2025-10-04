@@ -1,21 +1,20 @@
-interface FormItemProps {
-  id?: number;
+import type { UserUpsert } from "@/api/auth/user";
+
+interface FormItemProps extends UserUpsert {
+  id?: string;
   /** 用于判断是`新增`还是`修改` */
   title: string;
-  higherDeptOptions: Record<string, unknown>[];
-  parentId: number;
+  higherGroupOptions: Record<string, unknown>[];
+  parentId: string;
   nickname: string;
   username: string;
-  password: string;
-  phone: string | number;
+  phone: string;
   email: string;
-  sex: string | number;
-  status: number;
-  dept?: {
+  valid: boolean;
+  group?: {
     id?: number;
     name?: string;
   };
-  remark: string;
 }
 interface FormProps {
   formInline: FormItemProps;

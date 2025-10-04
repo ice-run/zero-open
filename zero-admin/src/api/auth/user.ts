@@ -51,12 +51,26 @@ export async function userSearch(
 }
 
 export type UserData = {
+  /** id */
+  id: string;
   /** username */
   username: string;
   /** nickname */
   nickname?: string;
   /** avatar */
   avatar?: string;
+  /** phone 手机 */
+  phone?: string;
+  /** email 邮箱 */
+  email?: string;
+  /** groupId 组织 ID */
+  groupId?: string;
+  /** createTime 创建时间 */
+  createTime: string;
+  /** updateTime 更新时间 */
+  updateTime: string;
+  /** valid 是否有效 */
+  valid?: boolean;
 };
 
 export type UserSearch = {
@@ -80,6 +94,14 @@ export type UserUpsert = {
   id?: string;
   /** 用户名 仅用于用户标识，不包含任何实际业务信息 */
   username?: string;
+  /** 昵称 */
+  nickname?: string;
+  /** phone 手机 */
+  phone?: string;
+  /** email 邮箱 */
+  email?: string;
+  /** groupId 组织 ID */
+  groupId?: string;
   /** valid 是否有效 */
   valid?: boolean;
 };
