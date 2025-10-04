@@ -35,22 +35,22 @@ const systemRouter = {
       }
     },
     {
-      path: "/system/menu/index",
-      name: "SystemMenu",
-      component: () => import("@/views/system/menu/index.vue"),
+      path: "/system/permission/index",
+      name: "SystemPermission",
+      component: () => import("@/views/system/permission/index.vue"),
       meta: {
         icon: "ep:menu",
-        title: "menus.pureSystemMenu",
+        title: "menus.pureSystemPermission",
         roles: ["admin"]
       }
     },
     {
-      path: "/system/dept/index",
-      name: "SystemDept",
-      component: () => import("@/views/system/dept/index.vue"),
+      path: "/system/group/index",
+      name: "SystemGroup",
+      component: () => import("@/views/system/group/index.vue"),
       meta: {
         icon: "ri:git-branch-line",
-        title: "menus.pureDept",
+        title: "menus.pureGroup",
         roles: ["admin"]
       }
     }

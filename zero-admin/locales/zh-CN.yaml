@@ -77,8 +77,8 @@ menus:
   pureSysManagement: 系统管理
   pureUser: 用户管理
   pureRole: 角色管理
-  pureSystemMenu: 菜单管理
-  pureDept: 部门管理
+  pureSystemPermission: 权限管理
+  pureGroup: 组织管理
   pureSysMonitor: 系统监控
   pureOnlineUser: 在线用户
   pureLoginLog: 登录日志

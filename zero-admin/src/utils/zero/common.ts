@@ -46,21 +46,46 @@ export function getCookie(name: string): string | null {
 
 /**
  * list 转 tree
+ * list 中包含 id , parentId , name 属性，
+ * 其中 parentId 为父级 id ，如果为根节点，则为 ""
+ * @param list
+ * @param parentId
+ */
+export const listToTree = (
+  list: { id: string; parentId: string; name: string }[],
+  parentId: string = ""
+): any[] => {
+  const tree: any[] = [];
+  for (const item of list) {
+    if (item.parentId === parentId) {
+      const children = listToTree(list, item.id);
+      tree.push(children.length > 0 ? { ...item, children } : { ...item });
+    }
+  }
+  return tree;
+};
+
+/**
+ * list 转 tree
  * list 中包含 id , code , name 属性，
- * 其中 code 的格式为 ^[0-9a-z-:]+$
+ * 其中 code 的格式为 ^(?!:)[a-z0-9\-:]+(?<!:)$
  * 以 : 冒号分割，每个冒号分隔的元素为层级关系，
  * 例如：a:b:c 表示 a 下有 b ，b 下有 c
  * @param list
  * @param parentCode
  */
-export const listToTree = (
-  list: { id: string; code: string; name: string }[],
+export const listToTreeByCode = (
+  list: { id: string; parentId?: string; code: string; name: string }[],
   parentCode: string = ""
 ): any[] => {
   const tree: any[] = [];
   for (const item of list) {
     if (item.code.startsWith(parentCode ? parentCode + ":" : "")) {
-      const children = listToTree(list, item.code);
+      const parentCodeStr = item.code.includes(":")
+        ? item.code.substring(0, item.code.lastIndexOf(":"))
+        : "";
+      item.parentId = list.find(i => i.code === parentCodeStr)?.id || "";
+      const children = listToTreeByCode(list, item.code);
       tree.push(children.length > 0 ? { ...item, children } : { ...item });
     }
   }

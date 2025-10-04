@@ -77,8 +77,8 @@ menus:
   pureSysManagement: System Manage
   pureUser: User Manage
   pureRole: Role Manage
-  pureSystemMenu: Menu Manage
-  pureDept: Dept Manage
+  pureSystemPermission: Permission Manage
+  pureGroup: Group Manage
   pureSysMonitor: System Monitor
   pureOnlineUser: Online User
   pureLoginLog: Login Log

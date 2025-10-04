@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useMenu } from "./utils/hook";
+import { usePermission } from "./utils/hook";
 import { transformI18n } from "@/plugins/i18n";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -11,7 +11,7 @@ import Refresh from "~icons/ep/refresh";
 import AddFill from "~icons/ri/add-circle-line";
 
 defineOptions({
-  name: "SystemMenu"
+  name: "SystemPermission"
 });
 
 const formRef = ref();
@@ -26,7 +26,7 @@ const {
   openDialog,
   handleDelete,
   handleSelectionChange
-} = useMenu();
+} = usePermission();
 
 function onFullscreen() {
   // 重置表格高度
@@ -42,17 +42,37 @@ function onFullscreen() {
       :model="form"
       class="search-form bg-bg_color w-full pl-8 pt-[12px] overflow-auto"
     >
-      <el-form-item label="菜单名称：" prop="title">
+      <el-form-item label="权限名称：" prop="name">
         <el-input
-          v-model="form.title"
-          placeholder="请输入菜单名称"
+          v-model="form.name"
+          placeholder="请输入权限名称"
           clearable
           class="w-[180px]!"
         />
       </el-form-item>
+      <el-form-item label="权限编码：" prop="code">
+        <el-input
+          v-model="form.code"
+          placeholder="请输入权限编码"
+          clearable
+          class="w-[180px]!"
+        />
+      </el-form-item>
+      <el-form-item label="状态：" prop="valid">
+        <el-select
+          v-model="form.valid"
+          placeholder="请选择状态"
+          clearable
+          class="w-[180px]!"
+        >
+          <el-option label="已启用" value="1" />
+          <el-option label="已停用" value="0" />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
+          plain
           :icon="useRenderIcon('ri/search-line')"
           :loading="loading"
           @click="onSearch"
@@ -66,7 +86,7 @@ function onFullscreen() {
     </el-form>
 
     <PureTableBar
-      title="菜单管理"
+      title="权限管理"
       :columns="columns"
       :isExpandAll="false"
       :tableRef="tableRef?.getTableRef()"
@@ -75,11 +95,12 @@ function onFullscreen() {
     >
       <template #buttons>
         <el-button
-          type="primary"
+          type="success"
+          plain
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
         >
-          新增菜单
+          新增
         </el-button>
       </template>
       <template v-slot="{ size, dynamicColumns }">
@@ -105,7 +126,7 @@ function onFullscreen() {
             <el-button
               class="reset-margin"
               link
-              type="primary"
+              type="warning"
               :size="size"
               :icon="useRenderIcon(EditPen)"
               @click="openDialog('修改', row)"
@@ -113,25 +134,24 @@ function onFullscreen() {
               修改
             </el-button>
             <el-button
-              v-show="row.menuType !== 3"
               class="reset-margin"
               link
-              type="primary"
+              type="success"
               :size="size"
               :icon="useRenderIcon(AddFill)"
-              @click="openDialog('新增', { parentId: row.id } as any)"
+              @click="openDialog('新增', row)"
             >
               新增
             </el-button>
             <el-popconfirm
-              :title="`是否确认删除菜单名称为${transformI18n(row.title)}的这条数据${row?.children?.length > 0 ? '。注意下级菜单也会一并删除，请谨慎操作' : ''}`"
+              :title="`是否确认删除权限名称为${transformI18n(row.title)}的这条数据${row?.children?.length > 0 ? '。注意下级权限也会一并删除，请谨慎操作' : ''}`"
               @confirm="handleDelete(row)"
             >
               <template #reference>
                 <el-button
                   class="reset-margin"
                   link
-                  type="primary"
+                  type="danger"
                   :size="size"
                   :icon="useRenderIcon(Delete)"
                 >

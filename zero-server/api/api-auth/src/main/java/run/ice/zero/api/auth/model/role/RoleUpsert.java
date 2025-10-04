@@ -28,7 +28,7 @@ public class RoleUpsert implements Serializer {
     @Schema(title = "code", description = "角色代码：编码单词使用 - 隔开，层级分组使用 : 隔开", example = "1")
     @NotEmpty
     @Size(min = 1, max = 64)
-    @Pattern(regexp = "^[a-z0-9\\-:]+$")
+    @Pattern(regexp = "^(?!:)[a-z0-9\\-:]+(?<!:)$")
     private String code;
 
     @Schema(title = "valid", description = "是否有效", example = "true")

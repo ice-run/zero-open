@@ -13,7 +13,7 @@ import { roleSearch, type RoleUpsert, roleUpsert } from "@/api/auth/role";
 import { type Ref, reactive, ref, onMounted, h, toRaw, watch } from "vue";
 import { rolePermissionList, rolePermissionUpsert } from "@/api/auth/rbac";
 import { permissionSearch } from "@/api/auth/permission";
-import { emptyToNull, listToTree } from "@/utils/zero/common";
+import { emptyToNull, listToTreeByCode } from "@/utils/zero/common";
 
 export function useRole(treeRef: Ref) {
   const form = reactive({
@@ -39,7 +39,7 @@ export function useRole(treeRef: Ref) {
   const { switchStyle } = usePublicHooks();
   const treeProps = {
     value: "id",
-    label: "title",
+    label: "name",
     children: "children"
   };
   const pagination = reactive<PaginationProps>({
@@ -237,12 +237,12 @@ export function useRole(treeRef: Ref) {
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
-              roleUpsert({ param: { id: null, ...curData } }).then(_ => {
+              roleUpsert({ param: { ...curData, id: null } }).then(_ => {
                 chores();
               });
             } else {
               // 实际开发先调用修改接口，再进行下面操作
-              roleUpsert({ param: { id: curData.id, ...curData } }).then(_ => {
+              roleUpsert({ param: { ...curData, id: curData.id } }).then(_ => {
                 chores();
               });
             }
@@ -253,7 +253,7 @@ export function useRole(treeRef: Ref) {
   }
 
   /** 角色权限 */
-  async function handleMenu(row?: any) {
+  async function handlePermission(row?: any) {
     const { id } = row;
     if (id) {
       curRow.value = row;
@@ -333,7 +333,7 @@ export function useRole(treeRef: Ref) {
       param: { size: 1000, param: {} }
     });
     treeIds.value = getKeyList(data.list, "id");
-    treeData.value = handleTree(listToTree(data.list));
+    treeData.value = handleTree(listToTreeByCode(data.list));
   });
 
   watch(isExpandAll, val => {
@@ -367,7 +367,7 @@ export function useRole(treeRef: Ref) {
     onSearch,
     resetForm,
     openDialog,
-    handleMenu,
+    handlePermission,
     handleSave,
     handleDelete,
     filterMethod,

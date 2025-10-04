@@ -28,7 +28,7 @@ public class PermissionUpsert implements Serializer {
     @Schema(name = "code", description = "权限代码：编码单词使用 - 隔开，层级分组使用 : 隔开", example = "admin")
     @NotEmpty
     @Size(min = 1, max = 255)
-    @Pattern(regexp = "^[a-z0-9\\-:]+$")
+    @Pattern(regexp = "^(?!:)[a-z0-9\\-:]+(?<!:)$")
     private String code;
 
     @Schema(title = "valid", description = "是否有效", example = "true")

@@ -10,7 +10,7 @@ import Refresh from "~icons/ep/refresh";
 import AddFill from "~icons/ri/add-circle-line";
 
 defineOptions({
-  name: "SystemDept"
+  name: "SystemGroup"
 });
 
 const formRef = ref();

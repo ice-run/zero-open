@@ -32,7 +32,7 @@ public class RoleData implements Serializer {
     @Schema(name = "code", description = "角色代码：编码单词使用 - 隔开，层级分组使用 : 隔开", example = "admin")
     @NotEmpty
     @Size(min = 1, max = 64)
-    @Pattern(regexp = "^[a-z0-9\\-:]+$")
+    @Pattern(regexp = "^(?!:)[a-z0-9\\-:]+(?<!:)$")
     private String code;
 
     @Schema(title = "createTime", description = "创建时间", example = AppConstant.DATE_TIME_EXAMPLE)

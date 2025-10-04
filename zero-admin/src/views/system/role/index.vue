@@ -66,7 +66,7 @@ const {
   onSearch,
   resetForm,
   openDialog,
-  handleMenu,
+  handlePermission,
   handleSave,
   handleDelete,
   filterMethod,
@@ -217,7 +217,7 @@ onMounted(() => {
                 type="primary"
                 :size="size"
                 :icon="useRenderIcon(Menu)"
-                @click="handleMenu(row)"
+                @click="handlePermission(row)"
               >
                 权限
               </el-button>
@@ -238,7 +238,7 @@ onMounted(() => {
                       type="primary"
                       :size="size"
                       :icon="useRenderIcon(Menu)"
-                      @click="handleMenu"
+                      @click="handlePermission"
                     >
                       角色权限
                     </el-button>
@@ -278,7 +278,7 @@ onMounted(() => {
                 width="18px"
                 height="18px"
                 :icon="Close"
-                @click="handleMenu"
+                @click="handlePermission"
               />
             </span>
             <span :class="[iconClass, 'ml-2']">
@@ -301,7 +301,7 @@ onMounted(() => {
         </div>
         <el-input
           v-model="treeSearchValue"
-          placeholder="请输入菜单进行搜索"
+          placeholder="请输入权限进行搜索"
           class="mb-1"
           clearable
           @input="onQueryChanged"
