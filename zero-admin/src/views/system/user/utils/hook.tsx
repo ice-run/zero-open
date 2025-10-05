@@ -18,7 +18,7 @@ import {
   deviceDetection
 } from "@pureadmin/utils";
 import { groupSearch } from "@/api/auth/group";
-import { userRoleList } from "@/api/auth/rbac";
+import { userRoleList, userRoleUpsert } from "@/api/auth/rbac";
 import { roleSearch } from "@/api/auth/role";
 import { userSearch, userUpsert, type UserUpsert } from "@/api/auth/user";
 import {
@@ -60,6 +60,8 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   const treeData = ref([]);
   const treeLoading = ref(true);
   const selectedNum = ref(0);
+  const beforeRoleIds = ref([]);
+  const afterRoleIds = ref([]);
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -474,7 +476,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
             console.log(pwdForm.newPwd);
             // 根据实际业务使用pwdForm.newPwd和row里的某些字段去调用重置用户密码接口即可
             done(); // 关闭弹框
-            onSearch(); // 刷新表格数据
+            onSearch().then(_ => {}); // 刷新表格数据
           }
         });
       }
@@ -487,10 +489,13 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     const ids = (
       (await userRoleList({ param: { id: row.id } }))?.data ?? []
     ).map(item => item.id);
+    beforeRoleIds.value = ids;
+    afterRoleIds.value = [];
     addDialog({
       title: `分配 ${row.username} 用户的角色`,
       props: {
         formInline: {
+          id: row?.id ?? "",
           username: row?.username ?? "",
           nickname: row?.nickname ?? "",
           roleOptions: roleOptions.value ?? [],
@@ -506,15 +511,58 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       beforeSure: (done, { options }) => {
         const curData = options.props.formInline as RoleFormItemProps;
         console.log("curIds", curData.ids);
+        afterRoleIds.value = curData.ids;
         // 根据实际业务使用curData.ids和row里的某些字段去调用修改角色接口即可
-        done(); // 关闭弹框
+        handleSave(curData).then(_ => {
+          done(); // 关闭弹框
+        });
       }
     });
   }
 
+  /** 用户角色-保存 */
+  async function handleSave(curData) {
+    const { id } = curData;
+    console.log("id", id);
+    // 根据用户 id 调用实际项目中用户角色修改接口
+    const insertIds = afterRoleIds.value.filter(
+      item => !beforeRoleIds.value.includes(item)
+    );
+    const deleteIds = beforeRoleIds.value.filter(
+      item => !afterRoleIds.value.includes(item)
+    );
+    if (insertIds.length) {
+      for (const roleId of insertIds) {
+        await userRoleUpsert({
+          param: {
+            userId: id,
+            roleId,
+            valid: true
+          }
+        }).then(_ => {});
+      }
+    }
+    if (deleteIds.length) {
+      for (const roleId of deleteIds) {
+        await userRoleUpsert({
+          param: {
+            userId: id,
+            roleId,
+            valid: false
+          }
+        }).then(_ => {});
+      }
+    }
+    message(`角色分配成功`, {
+      type: "success"
+    });
+    const { data } = await userRoleList({ param: { id } });
+    beforeRoleIds.value = data.map(item => item.id);
+  }
+
   onMounted(async () => {
     treeLoading.value = true;
-    onSearch();
+    onSearch().then(_ => {});
 
     // 归属组织
     const { data } = await groupSearch({ param: { size: 1000, param: {} } });

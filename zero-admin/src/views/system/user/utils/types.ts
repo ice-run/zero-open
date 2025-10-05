@@ -5,12 +5,12 @@ interface FormItemProps extends UserUpsert {
   /** 用于判断是`新增`还是`修改` */
   title: string;
   higherGroupOptions: Record<string, unknown>[];
-  parentId: string;
   nickname: string;
   username: string;
   phone: string;
   email: string;
   valid: boolean;
+  groupId: string;
   group?: {
     id?: number;
     name?: string;
@@ -21,6 +21,7 @@ interface FormProps {
 }
 
 interface RoleFormItemProps {
+  id?: string;
   username: string;
   nickname: string;
   /** 角色列表 */

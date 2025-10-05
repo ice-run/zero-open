@@ -9,11 +9,11 @@ const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     title: "新增",
     higherGroupOptions: [],
-    parentId: "",
     nickname: "",
     username: "",
     phone: "",
     email: "",
+    groupId: "",
     valid: true
   })
 });
@@ -85,7 +85,7 @@ defineExpose({ getRef });
       <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="归属组织">
           <el-cascader
-            v-model="newFormInline.parentId"
+            v-model="newFormInline.groupId"
             class="w-full"
             :options="newFormInline.higherGroupOptions"
             :props="{
