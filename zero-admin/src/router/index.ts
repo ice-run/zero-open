@@ -112,6 +112,7 @@ router.beforeEach(async (to: ToRouteType, _from, next) => {
 
   const user: UserData = await useUserStoreHook().getUser();
   const roles: string[] = await useUserStoreHook().getRoles();
+  const permissions: string[] = await useUserStoreHook().getPermissions();
 
   NProgress.start();
   const externalLink = isUrl(to?.name as string);
@@ -132,7 +133,10 @@ router.beforeEach(async (to: ToRouteType, _from, next) => {
 
   if (user) {
     // 无权限跳转403页面
-    if (to.meta?.roles && !isOneOfArray(to.meta?.roles, roles ?? [])) {
+    if (
+      (to.meta?.roles && !isOneOfArray(to.meta?.roles, roles ?? [])) ||
+      (to.meta?.perms && !isOneOfArray(to.meta?.perms, permissions ?? []))
+    ) {
       next({ path: "/error/403" });
     }
     // 开启隐藏首页后在浏览器地址栏手动输入首页welcome路由则跳转到404页面

@@ -50,7 +50,7 @@ export const formatToken = (token: string): string => {
   return "Bearer " + token;
 };
 
-export const hasRole = (value: string | Array<string>): boolean => {
+export const hasRoles = (value: string | Array<string>): boolean => {
   if (!value) return false;
   const allRoles = "*";
   const { roles } = useUserStoreHook();

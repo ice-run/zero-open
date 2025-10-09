@@ -84,8 +84,10 @@ function isOneOfArray(a: Array<string>, b: Array<string>) {
 /** 从localStorage里取出当前登录用户的角色roles，过滤无权限的菜单 */
 function filterNoPermissionTree(data: RouteComponent[]) {
   const roles: string[] = useUserStoreHook().roles ?? [];
-  const newTree = cloneDeep(data).filter((v: any) =>
-    isOneOfArray(v.meta?.roles, roles)
+  const perms: string[] = useUserStoreHook().permissions ?? [];
+  const newTree = cloneDeep(data).filter(
+    (v: any) =>
+      isOneOfArray(v.meta?.roles, roles) && isOneOfArray(v.meta?.perms, perms)
   );
   newTree.forEach(
     (v: any) => v.children && (v.children = filterNoPermissionTree(v.children))
