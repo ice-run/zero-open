@@ -6,7 +6,7 @@ import { useTags } from "@/layout/hooks/useTag";
 import { useGlobal, isNumber } from "@pureadmin/utils";
 import BackTopIcon from "@/assets/svg/back_top.svg?component";
 import { h, computed, Transition, defineComponent } from "vue";
-import { usePermissionStoreHook } from "@/store/modules/permission";
+import { usePermStoreHook } from "@/store/modules/perm";
 
 const props = defineProps({
   fixedHeader: Boolean
@@ -142,7 +142,7 @@ const transitionMain = defineComponent({
                 <transitionMain :route="route">
                   <keep-alive
                     v-if="isKeepAlive"
-                    :include="usePermissionStoreHook().cachePageList"
+                    :include="usePermStoreHook().cachePageList"
                   >
                     <component
                       :is="Comp"
@@ -166,7 +166,7 @@ const transitionMain = defineComponent({
               <transitionMain :route="route">
                 <keep-alive
                   v-if="isKeepAlive"
-                  :include="usePermissionStoreHook().cachePageList"
+                  :include="usePermStoreHook().cachePageList"
                 >
                   <component
                     :is="Comp"

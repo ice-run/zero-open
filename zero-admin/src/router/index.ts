@@ -5,7 +5,7 @@ import { transformI18n } from "@/plugins/i18n";
 import { buildHierarchyTree } from "@/utils/tree";
 import remainingRouter from "./modules/remaining";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
-import { usePermissionStoreHook } from "@/store/modules/permission";
+import { usePermStoreHook } from "@/store/modules/perm";
 import { isUrl, openLink, cloneDeep, isAllEmpty } from "@pureadmin/utils";
 import {
   ascending,
@@ -93,7 +93,7 @@ export function resetRouter() {
   router.options.routes = formatTwoStageRoutes(
     formatFlatteningRoutes(buildHierarchyTree(ascending(routes.flat(Infinity))))
   );
-  usePermissionStoreHook().clearAllCachePage();
+  usePermStoreHook().clearAllCachePage();
 }
 
 /** 路由白名单 */
@@ -112,7 +112,7 @@ router.beforeEach(async (to: ToRouteType, _from, next) => {
 
   const user: UserData = await useUserStoreHook().getUser();
   const roles: string[] = await useUserStoreHook().getRoles();
-  const permissions: string[] = await useUserStoreHook().getPermissions();
+  const perms: string[] = await useUserStoreHook().getPerms();
 
   NProgress.start();
   const externalLink = isUrl(to?.name as string);
@@ -135,7 +135,7 @@ router.beforeEach(async (to: ToRouteType, _from, next) => {
     // 无权限跳转403页面
     if (
       (to.meta?.roles && !isOneOfArray(to.meta?.roles, roles ?? [])) ||
-      (to.meta?.perms && !isOneOfArray(to.meta?.perms, permissions ?? []))
+      (to.meta?.perms && !isOneOfArray(to.meta?.perms, perms ?? []))
     ) {
       next({ path: "/error/403" });
     }
@@ -154,7 +154,7 @@ router.beforeEach(async (to: ToRouteType, _from, next) => {
     } else {
       // 刷新
       if (
-        usePermissionStoreHook().wholeMenus.length === 0 &&
+        usePermStoreHook().wholeMenus.length === 0 &&
         to.path !== "/login"
       ) {
         initRouter().then((router: Router) => {

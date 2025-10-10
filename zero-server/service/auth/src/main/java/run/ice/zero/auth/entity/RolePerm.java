@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(schema = "zero_open", name = "rbac_role_permission")
-public class RolePermission implements Serializer {
+@Table(schema = "zero_open", name = "rbac_role_perm")
+public class RolePerm implements Serializer {
 
     @Id
     @Column(name = "id")
@@ -31,8 +31,8 @@ public class RolePermission implements Serializer {
     @Column(name = "role_id")
     private Long roleId;
 
-    @Column(name = "permission_id")
-    private Long permissionId;
+    @Column(name = "perm_id")
+    private Long permId;
 
     @Column(name = "create_time")
     private LocalDateTime createTime;
@@ -70,9 +70,9 @@ public class RolePermission implements Serializer {
     private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "permission_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "perm_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     @ToString.Exclude
-    private Permission permission;
+    private Perm perm;
 
 }

@@ -20,7 +20,7 @@ import { getConfig } from "@/config";
 import { buildHierarchyTree } from "@/utils/tree";
 import { type menuType, routerArrays } from "@/layout/types";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
-import { usePermissionStoreHook } from "@/store/modules/permission";
+import { usePermStoreHook } from "@/store/modules/perm";
 const IFrame = () => import("@/layout/frame.vue");
 // https://cn.vitejs.dev/guide/features.html#glob-import
 const modulesRoutes = import.meta.glob("/src/views/**/*.{vue,tsx}");
@@ -82,15 +82,15 @@ function isOneOfArray(a: Array<string>, b: Array<string>) {
 }
 
 /** 从localStorage里取出当前登录用户的角色roles，过滤无权限的菜单 */
-function filterNoPermissionTree(data: RouteComponent[]) {
+function filterNoPermTree(data: RouteComponent[]) {
   const roles: string[] = useUserStoreHook().roles ?? [];
-  const perms: string[] = useUserStoreHook().permissions ?? [];
+  const perms: string[] = useUserStoreHook().perms ?? [];
   const newTree = cloneDeep(data).filter(
     (v: any) =>
       isOneOfArray(v.meta?.roles, roles) && isOneOfArray(v.meta?.perms, perms)
   );
   newTree.forEach(
-    (v: any) => v.children && (v.children = filterNoPermissionTree(v.children))
+    (v: any) => v.children && (v.children = filterNoPermTree(v.children))
   );
   return filterChildrenTree(newTree);
 }
@@ -153,7 +153,7 @@ function addPathMatch() {
 /** 处理动态路由（后端返回的路由） */
 function handleAsyncRoutes(routeList) {
   if (routeList.length === 0) {
-    usePermissionStoreHook().handleWholeMenus(routeList);
+    usePermStoreHook().handleWholeMenus(routeList);
   } else {
     formatFlatteningRoutes(addAsyncRoutes(routeList)).map(
       (v: RouteRecordRaw) => {
@@ -179,12 +179,12 @@ function handleAsyncRoutes(routeList) {
         }
       }
     );
-    usePermissionStoreHook().handleWholeMenus(routeList);
+    usePermStoreHook().handleWholeMenus(routeList);
   }
   if (!useMultiTagsStoreHook().getMultiTagsCache) {
     useMultiTagsStoreHook().handleTags("equal", [
       ...routerArrays,
-      ...usePermissionStoreHook().flatteningRoutes.filter(
+      ...usePermStoreHook().flatteningRoutes.filter(
         v => v?.meta?.fixedTag
       )
     ]);
@@ -273,30 +273,30 @@ function formatTwoStageRoutes(routesList: RouteRecordRaw[]) {
 function handleAliveRoute({ name }: ToRouteType, mode?: string) {
   switch (mode) {
     case "add":
-      usePermissionStoreHook().cacheOperate({
+      usePermStoreHook().cacheOperate({
         mode: "add",
         name
       });
       break;
     case "delete":
-      usePermissionStoreHook().cacheOperate({
+      usePermStoreHook().cacheOperate({
         mode: "delete",
         name
       });
       break;
     case "refresh":
-      usePermissionStoreHook().cacheOperate({
+      usePermStoreHook().cacheOperate({
         mode: "refresh",
         name
       });
       break;
     default:
-      usePermissionStoreHook().cacheOperate({
+      usePermStoreHook().cacheOperate({
         mode: "delete",
         name
       });
       useTimeoutFn(() => {
-        usePermissionStoreHook().cacheOperate({
+        usePermStoreHook().cacheOperate({
           mode: "add",
           name
         });
@@ -388,7 +388,7 @@ function handleTopMenu(route) {
 /** 获取所有菜单中的第一个菜单（顶级菜单）*/
 function getTopMenu(tag = false): menuType {
   const topMenu = handleTopMenu(
-    usePermissionStoreHook().wholeMenus[0]?.children[0]
+    usePermStoreHook().wholeMenus[0]?.children[0]
   );
   tag && useMultiTagsStoreHook().handleTags("push", topMenu);
   return topMenu;
@@ -410,5 +410,5 @@ export {
   handleAliveRoute,
   formatTwoStageRoutes,
   formatFlatteningRoutes,
-  filterNoPermissionTree
+  filterNoPermTree
 };

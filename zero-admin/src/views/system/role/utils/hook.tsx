@@ -11,8 +11,8 @@ import type { PaginationProps } from "@pureadmin/table";
 import { getKeyList, deviceDetection } from "@pureadmin/utils";
 import { roleSearch, type RoleUpsert, roleUpsert } from "@/api/auth/role";
 import { type Ref, reactive, ref, onMounted, h, toRaw, watch } from "vue";
-import { rolePermissionList, rolePermissionUpsert } from "@/api/auth/rbac";
-import { permissionSearch } from "@/api/auth/permission";
+import { rolePermList, rolePermUpsert } from "@/api/auth/rbac";
+import { permSearch } from "@/api/auth/perm";
 import { emptyToNull, listToTreeByCode } from "@/utils/zero/common";
 
 export function useRole(treeRef: Ref) {
@@ -27,8 +27,8 @@ export function useRole(treeRef: Ref) {
   const dataList = ref([]);
   const treeIds = ref([]);
   const treeData = ref([]);
-  const beforePermissionIds = ref([]);
-  const afterPermissionIds = ref([]);
+  const beforePermIds = ref([]);
+  const afterPermIds = ref([]);
   const isShow = ref(false);
   const loading = ref(true);
   const isLinkage = ref(false);
@@ -253,14 +253,14 @@ export function useRole(treeRef: Ref) {
   }
 
   /** 角色权限 */
-  async function handlePermission(row?: any) {
+  async function handlePerm(row?: any) {
     const { id } = row;
     if (id) {
       curRow.value = row;
       isShow.value = true;
-      const { data } = await rolePermissionList({ param: { id } });
-      beforePermissionIds.value = data.map(item => item.id);
-      afterPermissionIds.value = [];
+      const { data } = await rolePermList({ param: { id } });
+      beforePermIds.value = data.map(item => item.id);
+      afterPermIds.value = [];
       treeRef.value.setCheckedKeys(data.map(item => item.id));
     } else {
       curRow.value = null;
@@ -279,31 +279,31 @@ export function useRole(treeRef: Ref) {
   /** 角色权限-保存 */
   async function handleSave() {
     const { id, name } = curRow.value;
-    afterPermissionIds.value = treeRef.value.getCheckedKeys();
+    afterPermIds.value = treeRef.value.getCheckedKeys();
     // 根据用户 id 调用实际项目中角色权限修改接口
-    const insertIds = afterPermissionIds.value.filter(
-      item => !beforePermissionIds.value.includes(item)
+    const insertIds = afterPermIds.value.filter(
+      item => !beforePermIds.value.includes(item)
     );
-    const deleteIds = beforePermissionIds.value.filter(
-      item => !afterPermissionIds.value.includes(item)
+    const deleteIds = beforePermIds.value.filter(
+      item => !afterPermIds.value.includes(item)
     );
     if (insertIds.length) {
-      for (const permissionId of insertIds) {
-        await rolePermissionUpsert({
+      for (const permId of insertIds) {
+        await rolePermUpsert({
           param: {
             roleId: id,
-            permissionId: permissionId,
+            permId: permId,
             valid: true
           }
         }).then(_ => {});
       }
     }
     if (deleteIds.length) {
-      for (const permissionId of deleteIds) {
-        await rolePermissionUpsert({
+      for (const permId of deleteIds) {
+        await rolePermUpsert({
           param: {
             roleId: id,
-            permissionId: permissionId,
+            permId: permId,
             valid: false
           }
         }).then(_ => {});
@@ -312,8 +312,8 @@ export function useRole(treeRef: Ref) {
     message(`角色名称为${name}的角色权限修改成功`, {
       type: "success"
     });
-    const { data } = await rolePermissionList({ param: { id } });
-    beforePermissionIds.value = data.map(item => item.id);
+    const { data } = await rolePermList({ param: { id } });
+    beforePermIds.value = data.map(item => item.id);
   }
 
   /** 数据权限 可自行开发 */
@@ -329,7 +329,7 @@ export function useRole(treeRef: Ref) {
 
   onMounted(async () => {
     onSearch().then(_ => {});
-    const { data } = await permissionSearch({
+    const { data } = await permSearch({
       param: { size: 1000, param: {} }
     });
     treeIds.value = getKeyList(data.list, "id");
@@ -367,7 +367,7 @@ export function useRole(treeRef: Ref) {
     onSearch,
     resetForm,
     openDialog,
-    handlePermission,
+    handlePerm,
     handleSave,
     handleDelete,
     filterMethod,

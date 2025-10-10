@@ -7,9 +7,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ice.zero.api.auth.error.AuthError;
-import run.ice.zero.api.auth.model.permission.PermissionData;
-import run.ice.zero.api.auth.model.rbac.RolePermissionData;
-import run.ice.zero.api.auth.model.rbac.RolePermissionUpsert;
+import run.ice.zero.api.auth.model.perm.PermData;
+import run.ice.zero.api.auth.model.rbac.RolePermData;
+import run.ice.zero.api.auth.model.rbac.RolePermUpsert;
 import run.ice.zero.api.auth.model.rbac.UserRoleUpsert;
 import run.ice.zero.api.auth.model.role.RoleData;
 import run.ice.zero.auth.entity.*;
@@ -35,18 +35,18 @@ public class RbacService {
     private RoleRepository roleRepository;
 
     @Resource
-    private PermissionRepository permissionRepository;
+    private PermRepository permRepository;
 
     @Resource
     private UserRoleRepository userRoleRepository;
 
     @Resource
-    private RolePermissionRepository rolePermissionRepository;
+    private RolePermRepository rolePermRepository;
 
     @Resource
     private AuthHelper authHelper;
 
-    public RolePermissionData rolePermission(String authorization) {
+    public RolePermData rolePerm(String authorization) {
         String username = authHelper.username(authorization.replace("Bearer ", ""));
         Optional<User> optional = userRepository.findByUsername(username);
         if (optional.isEmpty()) {
@@ -55,7 +55,7 @@ public class RbacService {
         User user = optional.get();
         Long userId = user.getId();
         List<Role> roleList = roleRepository.findAllByUserId(userId);
-        List<Permission> permissionList = permissionRepository.findAllByUserId(userId);
+        List<Perm> permList = permRepository.findAllByUserId(userId);
 
         List<RoleData> roleDataList = new ArrayList<>();
         for (Role role : roleList) {
@@ -64,16 +64,16 @@ public class RbacService {
             roleDataList.add(roleData);
         }
 
-        List<PermissionData> permissionDataList = new ArrayList<>();
-        for (Permission permission : permissionList) {
-            PermissionData permissionData = new PermissionData();
-            BeanUtils.copyProperties(permission, permissionData);
-            permissionDataList.add(permissionData);
+        List<PermData> permDataList = new ArrayList<>();
+        for (Perm perm : permList) {
+            PermData permData = new PermData();
+            BeanUtils.copyProperties(perm, permData);
+            permDataList.add(permData);
         }
 
-        RolePermissionData data = new RolePermissionData();
+        RolePermData data = new RolePermData();
         data.setRoleDataList(roleDataList);
-        data.setPermissionDataList(permissionDataList);
+        data.setPermDataList(permDataList);
 
         return data;
     }
@@ -90,16 +90,16 @@ public class RbacService {
         return roleDataList;
     }
 
-    public List<PermissionData> rolePermissionList(IdParam param) {
+    public List<PermData> rolePermList(IdParam param) {
         Long roleId = param.getId();
-        List<Permission> permissionList = permissionRepository.findAllByRoleId(roleId);
-        List<PermissionData> permissionDataList = new ArrayList<>();
-        for (Permission permission : permissionList) {
-            PermissionData permissionData = new PermissionData();
-            BeanUtils.copyProperties(permission, permissionData);
-            permissionDataList.add(permissionData);
+        List<Perm> permList = permRepository.findAllByRoleId(roleId);
+        List<PermData> permDataList = new ArrayList<>();
+        for (Perm perm : permList) {
+            PermData permData = new PermData();
+            BeanUtils.copyProperties(perm, permData);
+            permDataList.add(permData);
         }
-        return permissionDataList;
+        return permDataList;
     }
 
     public void userRoleUpsert(UserRoleUpsert param) {
@@ -118,20 +118,20 @@ public class RbacService {
         userRoleRepository.saveAndFlush(entity);
     }
 
-    public void rolePermissionUpsert(RolePermissionUpsert param) {
+    public void rolePermUpsert(RolePermUpsert param) {
         Long roleId = param.getRoleId();
-        Long permissionId = param.getPermissionId();
+        Long permId = param.getPermId();
         Boolean valid = param.getValid();
-        RolePermission entity = new RolePermission();
+        RolePerm entity = new RolePerm();
         entity.setRoleId(roleId);
-        entity.setPermissionId(permissionId);
-        Optional<RolePermission> optional = rolePermissionRepository.findOne(Example.of(entity));
+        entity.setPermId(permId);
+        Optional<RolePerm> optional = rolePermRepository.findOne(Example.of(entity));
         if (optional.isPresent()) {
             entity = optional.get();
             entity.setUpdateTime(LocalDateTime.now());
         }
         entity.setValid(valid);
-        rolePermissionRepository.saveAndFlush(entity);
+        rolePermRepository.saveAndFlush(entity);
     }
 
 }

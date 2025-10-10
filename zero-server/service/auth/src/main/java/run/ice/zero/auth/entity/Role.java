@@ -67,7 +67,7 @@ public class Role implements Serializer {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     @JsonIgnore
     @ToString.Exclude
-    private List<RolePermission> rolePermissions;
+    private List<RolePerm> rolePerms;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     @JsonIgnore
@@ -75,10 +75,10 @@ public class Role implements Serializer {
     private List<UserRole> userRoles;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "zero_open", name = "rbac_role_permission", joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id")})
+    @JoinTable(schema = "zero_open", name = "rbac_role_perm", joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "perm_id", referencedColumnName = "id")})
     @JsonIgnore
     @ToString.Exclude
-    private List<Permission> permissions;
+    private List<Perm> perms;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     @JsonIgnore

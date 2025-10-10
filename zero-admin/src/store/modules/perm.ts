@@ -7,12 +7,12 @@ import {
   getKeyList,
   filterTree,
   constantMenus,
-  filterNoPermissionTree,
+  filterNoPermTree,
   formatFlatteningRoutes
 } from "../utils";
 import { useMultiTagsStoreHook } from "./multiTags";
 
-export const usePermissionStore = defineStore("pure-permission", {
+export const usePermStore = defineStore("pure-perm", {
   state: () => ({
     // 静态路由生成的菜单
     constantMenus,
@@ -26,7 +26,7 @@ export const usePermissionStore = defineStore("pure-permission", {
   actions: {
     /** 组装整体路由生成的菜单 */
     handleWholeMenus(routes: any[]) {
-      this.wholeMenus = filterNoPermissionTree(
+      this.wholeMenus = filterNoPermTree(
         filterTree(ascending(this.constantMenus.concat(routes)))
       );
       this.flatteningRoutes = formatFlatteningRoutes(
@@ -69,6 +69,6 @@ export const usePermissionStore = defineStore("pure-permission", {
   }
 });
 
-export function usePermissionStoreHook() {
-  return usePermissionStore(store);
+export function usePermStoreHook() {
+  return usePermStore(store);
 }

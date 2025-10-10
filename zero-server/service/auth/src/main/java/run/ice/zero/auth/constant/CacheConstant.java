@@ -6,7 +6,7 @@ public class CacheConstant {
 
     private static final String PREFIX = "auth" + DELIMITER;
 
-    public static final String PERMISSION = PREFIX + "permission" + DELIMITER;
+    public static final String PERM = PREFIX + "perm" + DELIMITER;
 
     public static final String ROLE = PREFIX + "role" + DELIMITER;
 

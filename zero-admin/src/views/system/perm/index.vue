@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { usePermission } from "./utils/hook";
+import { usePerm } from "./utils/hook";
 import { transformI18n } from "@/plugins/i18n";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -11,7 +11,7 @@ import Refresh from "~icons/ep/refresh";
 import AddFill from "~icons/ri/add-circle-line";
 
 defineOptions({
-  name: "SystemPermission"
+  name: "SystemPerm"
 });
 
 const formRef = ref();
@@ -26,7 +26,7 @@ const {
   openDialog,
   handleDelete,
   handleSelectionChange
-} = usePermission();
+} = usePerm();
 
 function onFullscreen() {
   // 重置表格高度

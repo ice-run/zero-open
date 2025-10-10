@@ -13,7 +13,7 @@ import { useAppStoreHook } from "@/store/modules/app";
 import { useUserStoreHook } from "@/store/modules/user";
 import { useGlobal, isAllEmpty } from "@pureadmin/utils";
 import { useEpThemeStoreHook } from "@/store/modules/epTheme";
-import { usePermissionStoreHook } from "@/store/modules/permission";
+import { usePermStoreHook } from "@/store/modules/perm";
 import ExitFullscreen from "~icons/ri/fullscreen-exit-fill";
 import Fullscreen from "~icons/ri/fullscreen-fill";
 
@@ -24,7 +24,7 @@ export function useNav() {
   const pureApp = useAppStoreHook();
   const routers = useRouter().options.routes;
   const { isFullscreen, toggle } = useFullscreen();
-  const { wholeMenus } = storeToRefs(usePermissionStoreHook());
+  const { wholeMenus } = storeToRefs(usePermStoreHook());
   /** 平台`layout`中所有`el-tooltip`的`effect`配置，默认`light` */
   const tooltipEffect = getConfig()?.TooltipEffect ?? "light";
 

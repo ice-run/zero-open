@@ -26,9 +26,9 @@ public enum AuthError implements ErrorEnum {
     ROLE_NAME_ALREADY_EXIST(code("09"), "角色名称已经存在"),
     ROLE_CODE_ALREADY_EXIST(code("10"), "角色代码已经存在"),
 
-    PERMISSION_NOT_EXIST(code("11"), "权限不存在"),
-    PERMISSION_NAME_ALREADY_EXIST(code("12"), "权限名称已经存在"),
-    PERMISSION_CODE_ALREADY_EXIST(code("13"), "权限代码已经存在"),
+    PERM_NOT_EXIST(code("11"), "权限不存在"),
+    PERM_NAME_ALREADY_EXIST(code("12"), "权限名称已经存在"),
+    PERM_CODE_ALREADY_EXIST(code("13"), "权限代码已经存在"),
     USER_INVALID(code("14"), "用户无效"),
     OLD_PASSWORD_INCORRECT(code("15"), "原密码错误，请输入正确的密码"),
     INVOKE_DICT_EXCEPTION(code("16"), "调用 dict 服务异常"),

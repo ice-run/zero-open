@@ -35,12 +35,12 @@ const systemRouter = {
       }
     },
     {
-      path: "/system/permission/index",
-      name: "SystemPermission",
-      component: () => import("@/views/system/permission/index.vue"),
+      path: "/system/perm/index",
+      name: "SystemPerm",
+      component: () => import("@/views/system/perm/index.vue"),
       meta: {
         icon: "ep:menu",
-        title: "menus.pureSystemPermission",
+        title: "menus.pureSystemPerm",
         roles: ["admin"]
       }
     },

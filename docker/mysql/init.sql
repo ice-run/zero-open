@@ -82,7 +82,7 @@ CREATE TABLE `rbac_user`
     `update_time` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `valid`       tinyint(1)      NOT NULL DEFAULT '1' COMMENT '是否有效：0 无效，1 有效',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_username` (`username`)
+    UNIQUE KEY `username` (`username`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin COMMENT ='用户';
@@ -97,14 +97,14 @@ CREATE TABLE `rbac_role`
     `update_time` datetime                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `valid`       tinyint(1)      NOT NULL DEFAULT '1',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_code` (`code`),
-    UNIQUE KEY `idx_name` (`name`)
+    UNIQUE KEY `code` (`code`),
+    UNIQUE KEY `name` (`name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin COMMENT ='角色';
 
 
-CREATE TABLE `rbac_permission`
+CREATE TABLE `rbac_perm`
 (
     `id`          bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
     `code`        varchar(64)     NOT NULL COMMENT 'code',
@@ -113,8 +113,8 @@ CREATE TABLE `rbac_permission`
     `update_time` datetime                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `valid`       tinyint(1)      NOT NULL DEFAULT '1' COMMENT '是否有效：1有效，0无效',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_code` (`code`),
-    UNIQUE KEY `idx_name` (`name`)
+    UNIQUE KEY `code` (`code`),
+    UNIQUE KEY `name` (`name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin COMMENT ='权限';
@@ -129,26 +129,26 @@ CREATE TABLE `rbac_user_role`
     `update_time` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `valid`       tinyint(1)      NOT NULL DEFAULT '1' COMMENT '是否有效：0 无效，1 有效',
     PRIMARY KEY (`id`),
-    KEY `idx_user_id` (`user_id`),
-    KEY `idx_role_id` (`role_id`),
-    UNIQUE KEY `idx_user_id_role_id` (`user_id`, `role_id`)
+    KEY `user_id` (`user_id`),
+    KEY `role_id` (`role_id`),
+    UNIQUE KEY `user_id_role_id` (`user_id`, `role_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin COMMENT ='用户角色';
 
 
-CREATE TABLE `rbac_role_permission`
+CREATE TABLE `rbac_role_perm`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
     `role_id`       bigint          NOT NULL COMMENT '角色 id',
-    `permission_id` bigint          NOT NULL COMMENT '权限 id',
+    `perm_id` bigint          NOT NULL COMMENT '权限 id',
     `create_time`   datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`   datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `valid`         tinyint(1)      NOT NULL DEFAULT '1' COMMENT '是否有效：0 无效，1 有效',
     PRIMARY KEY (`id`),
-    KEY `idx_role_id` (`role_id`),
-    KEY `idx_permission_id` (`permission_id`),
-    UNIQUE KEY `idx_role_id_permission_id` (`role_id`, `permission_id`)
+    KEY `role_id` (`role_id`),
+    KEY `perm_id` (`perm_id`),
+    UNIQUE KEY `role_id_perm_id` (`role_id`, `perm_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin COMMENT ='角色权限';
@@ -174,11 +174,11 @@ INSERT INTO rbac_user (username, password, create_time, update_time, valid)
 VALUES ('admin', '{bcrypt}$2a$10$mATi3BkTD59cTEeTvBCiduGzoB2PooohWUjerUfi2jIfRpQj/7E1a', DEFAULT, DEFAULT, DEFAULT);
 INSERT INTO rbac_role (code, name, create_time, update_time, valid)
 VALUES ('admin', '超级管理', DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO rbac_permission (code, name, create_time, update_time, valid)
+INSERT INTO rbac_perm (code, name, create_time, update_time, valid)
 VALUES ('admin', '超级管理', DEFAULT, DEFAULT, DEFAULT);
 INSERT INTO rbac_user_role (user_id, role_id, create_time, update_time, valid)
 VALUES (1, 1, DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO rbac_role_permission (role_id, permission_id, create_time, update_time, valid)
+INSERT INTO rbac_role_perm (role_id, perm_id, create_time, update_time, valid)
 VALUES (1, 1, DEFAULT, DEFAULT, DEFAULT);
 
 CREATE TABLE IF NOT EXISTS `zero_open`.`file_info`
@@ -214,8 +214,8 @@ CREATE TABLE IF NOT EXISTS `zero_open`.`dict_code`
     `update_time` datetime                        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `valid`       tinyint(1)                      NOT NULL DEFAULT '1' COMMENT '是否有效：0 无效，1 有效',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_code_key` (`code`, `key`),
-    KEY `idx_code` (`code`)
+    UNIQUE KEY `code_key` (`code`, `key`),
+    KEY `code` (`code`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin COMMENT ='数据字典';

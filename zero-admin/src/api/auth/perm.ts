@@ -2,36 +2,36 @@ import type { IdParam, PageData, PageParam, Request, Response } from "@/api";
 import { http } from "@/utils/http";
 
 /** 权限搜索 传入权限查询参数，查询分页权限数据 */
-export async function permissionSearch(
-  request: Request<PageParam<PermissionSearch>>
-): Promise<Response<PageData<PermissionData>>> {
+export async function permSearch(
+  request: Request<PageParam<PermSearch>>
+): Promise<Response<PageData<PermData>>> {
   return http.post<
-    Request<PageParam<PermissionSearch>>,
-    Response<PageData<PermissionData>>
-  >(`/auth/api/permission-search`, { data: request });
+    Request<PageParam<PermSearch>>,
+    Response<PageData<PermData>>
+  >(`/auth/api/perm-search`, { data: request });
 }
 
 /** 权限写入 传入权限新增或修改参数 ，写入权限数据 */
-export async function permissionUpsert(
-  request: Request<PermissionUpsert>
-): Promise<Response<PermissionData>> {
-  return http.post<Request<PermissionUpsert>, Response<PermissionData>>(
-    `/auth/api/permission-upsert`,
+export async function permUpsert(
+  request: Request<PermUpsert>
+): Promise<Response<PermData>> {
+  return http.post<Request<PermUpsert>, Response<PermData>>(
+    `/auth/api/perm-upsert`,
     { data: request }
   );
 }
 
 /** 权限查询 传入权限 ID，查询一条权限数据 */
-export async function permissionSelect(
+export async function permSelect(
   request: Request<IdParam>
-): Promise<Response<PermissionData>> {
-  return http.post<Request<IdParam>, Response<PermissionData>>(
-    `/auth/api/permission-select`,
+): Promise<Response<PermData>> {
+  return http.post<Request<IdParam>, Response<PermData>>(
+    `/auth/api/perm-select`,
     { data: request }
   );
 }
 
-export type PermissionData = {
+export type PermData = {
   /** id */
   id: string;
   /** 权限名称 */
@@ -46,7 +46,7 @@ export type PermissionData = {
   valid: boolean;
 };
 
-export type PermissionUpsert = {
+export type PermUpsert = {
   /** id */
   id?: string;
   /** 角色名称 */
@@ -57,7 +57,7 @@ export type PermissionUpsert = {
   valid?: boolean;
 };
 
-export type PermissionSearch = {
+export type PermSearch = {
   /** ID 权限 ID */
   id?: string;
   /** 权限名称 */

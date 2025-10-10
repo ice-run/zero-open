@@ -1,6 +1,6 @@
-import type { PermissionUpsert } from "@/api/auth/permission";
+import type { PermUpsert } from "@/api/auth/perm";
 
-interface FormItemProps extends PermissionUpsert {
+interface FormItemProps extends PermUpsert {
   id?: string;
   parentId?: string;
   name: string;

@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ice.zero.api.auth.error.AuthError;
-import run.ice.zero.auth.entity.Permission;
+import run.ice.zero.auth.entity.Perm;
 import run.ice.zero.auth.entity.User;
-import run.ice.zero.auth.repository.PermissionRepository;
+import run.ice.zero.auth.repository.PermRepository;
 import run.ice.zero.auth.repository.UserRepository;
 import run.ice.zero.common.error.AppException;
 
@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
     @Resource
-    private PermissionRepository permissionRepository;
+    private PermRepository permRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -75,17 +75,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         /*
          * 获取用户授权
          */
-        List<Permission> permissions = permissionRepository.findAllByUserId(userId);
+        List<Perm> perms = permRepository.findAllByUserId(userId);
         /*
          * 声明用户授权
          */
-        permissions.forEach(permission -> {
-            if (permission != null && permission.getCode() != null && Boolean.TRUE.equals(permission.getValid())) {
-                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(permission.getCode());
+        perms.forEach(perm -> {
+            if (perm != null && perm.getCode() != null && Boolean.TRUE.equals(perm.getValid())) {
+                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(perm.getCode());
                 grantedAuthorities.add(grantedAuthority);
             }
         });
-        permissions.clear();
+        perms.clear();
         return grantedAuthorities;
     }
 

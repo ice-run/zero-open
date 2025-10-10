@@ -1,14 +1,14 @@
 import { http } from "@/utils/http";
 import type { IdParam, No, Ok, Request, Response } from "@/api";
 import type { RoleData } from "@/api/auth/role";
-import type { PermissionData } from "@/api/auth/permission";
+import type { PermData } from "@/api/auth/perm";
 
-/** 自己的角色权限代码数组 @DaoDao header 中传入 token 信息，获取用户自己的角色权限信息，常用于前端获取数据加载到状态管理中。返回角色代码数组和权限代码数组 POST /api/role-permission */
-export async function rolePermission(
+/** 自己的角色权限代码数组 @DaoDao header 中传入 token 信息，获取用户自己的角色权限信息，常用于前端获取数据加载到状态管理中。返回角色代码数组和权限代码数组 POST /api/role-perm */
+export async function rolePerm(
   request: Request<No>
-): Promise<Response<RolePermissionData>> {
-  return http.post<Request<No>, Response<RolePermissionData>>(
-    `/auth/api/role-permission`,
+): Promise<Response<RolePermData>> {
+  return http.post<Request<No>, Response<RolePermData>>(
+    `/auth/api/role-perm`,
     { data: request }
   );
 }
@@ -24,11 +24,11 @@ export async function userRoleList(
 }
 
 /** 查询角色的权限列表 */
-export async function rolePermissionList(
+export async function rolePermList(
   request: Request<IdParam>
-): Promise<Response<PermissionData[]>> {
-  return http.post<Request<IdParam>, Response<PermissionData[]>>(
-    `/auth/api/role-permission-list`,
+): Promise<Response<PermData[]>> {
+  return http.post<Request<IdParam>, Response<PermData[]>>(
+    `/auth/api/role-perm-list`,
     { data: request }
   );
 }
@@ -43,20 +43,20 @@ export async function userRoleUpsert(
   );
 }
 
-export async function rolePermissionUpsert(
-  request: Request<RolePermissionUpsert>
+export async function rolePermUpsert(
+  request: Request<RolePermUpsert>
 ): Promise<Response<Ok>> {
-  return http.post<Request<RolePermissionUpsert>, Response<Ok>>(
-    `/auth/api/role-permission-upsert`,
+  return http.post<Request<RolePermUpsert>, Response<Ok>>(
+    `/auth/api/role-perm-upsert`,
     { data: request }
   );
 }
 
-export type RolePermissionData = {
+export type RolePermData = {
   /** roleDataList 角色列表 */
   roleDataList: RoleData[];
-  /** permissionDataList 权限列表 */
-  permissionDataList: PermissionData[];
+  /** permDataList 权限列表 */
+  permDataList: PermData[];
 };
 
 export type UserRoleUpsert = {
@@ -68,11 +68,11 @@ export type UserRoleUpsert = {
   valid?: boolean;
 };
 
-export type RolePermissionUpsert = {
+export type RolePermUpsert = {
   /** 角色 ID */
   roleId: string;
   /** 权限 ID */
-  permissionId: string;
+  permId: string;
   /** 是否有效 */
   valid?: boolean;
 };

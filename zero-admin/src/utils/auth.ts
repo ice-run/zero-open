@@ -9,7 +9,7 @@ import zero from "@/utils/zero";
 const TOKEN = "ZERO-TOKEN";
 const USER = "ZERO-USER";
 const ROLES = "ZERO-ROLES";
-const PERMISSIONS = "ZERO-PERMISSIONS";
+const PERMS = "ZERO-PERMS";
 
 const COOKIE_TOKEN = zero.ENV === "test" ? "TEST-" + TOKEN : TOKEN;
 const DOMAIN = window.location.href.includes(".ice.run/")
@@ -32,7 +32,7 @@ export interface DataInfo<T> {
   /** 当前登录用户的角色 */
   roles?: Array<string>;
   /** 当前登录用户的按钮级别权限 */
-  permissions?: Array<string>;
+  perms?: Array<string>;
 }
 
 export const userKey = "user-info";
@@ -62,16 +62,16 @@ export const hasRoles = (value: string | Array<string>): boolean => {
   return isAuths ? true : false;
 };
 
-/** 是否有按钮级别的权限（根据登录接口返回的`permissions`字段进行判断）*/
+/** 是否有按钮级别的权限（根据登录接口返回的`perms`字段进行判断）*/
 export const hasPerms = (value: string | Array<string>): boolean => {
   if (!value) return false;
   const allPerms = "*:*:*";
-  const { permissions } = useUserStoreHook();
-  if (!permissions) return false;
-  if (permissions.length === 1 && permissions[0] === allPerms) return true;
+  const { perms } = useUserStoreHook();
+  if (!perms) return false;
+  if (perms.length === 1 && perms[0] === allPerms) return true;
   const isAuths = isString(value)
-    ? permissions.includes(value)
-    : isIncludeAllChildren(value, permissions);
+    ? perms.includes(value)
+    : isIncludeAllChildren(value, perms);
   return isAuths ? true : false;
 };
 
@@ -142,25 +142,25 @@ export function removeRoles() {
   localStorage.removeItem(ROLES);
 }
 
-export function getPermissions(): string[] {
-  const value = localStorage.getItem(PERMISSIONS);
+export function getPerms(): string[] {
+  const value = localStorage.getItem(PERMS);
   if (value) {
     return JSON.parse(value);
   }
   return null as unknown as string[];
 }
 
-export function setPermissions(permissions: string[]) {
-  localStorage.setItem(PERMISSIONS, JSON.stringify(permissions));
+export function setPerms(perms: string[]) {
+  localStorage.setItem(PERMS, JSON.stringify(perms));
 }
 
-export function removePermissions() {
-  localStorage.removeItem(PERMISSIONS);
+export function removePerms() {
+  localStorage.removeItem(PERMS);
 }
 
 export function clearAuth() {
   removeToken();
   removeUser();
   removeRoles();
-  removePermissions();
+  removePerms();
 }

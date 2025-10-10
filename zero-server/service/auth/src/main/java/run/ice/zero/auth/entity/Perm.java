@@ -21,8 +21,8 @@ import java.util.List;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(schema = "zero_open", name = "rbac_permission")
-public class Permission implements Serializer {
+@Table(schema = "zero_open", name = "rbac_perm")
+public class Perm implements Serializer {
 
     @Id
     @Column(name = "id")
@@ -64,12 +64,12 @@ public class Permission implements Serializer {
         updateTime = LocalDateTime.now();
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "permission")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "perm")
     @JsonIgnore
     @ToString.Exclude
-    private List<RolePermission> rolePermissions;
+    private List<RolePerm> rolePerms;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permissions")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "perms")
     @JsonIgnore
     @ToString.Exclude
     private List<Role> roles;

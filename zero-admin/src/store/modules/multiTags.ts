@@ -12,7 +12,7 @@ import {
   storageLocal,
   responsiveStorageNameSpace
 } from "../utils";
-import { usePermissionStoreHook } from "./permission";
+import { usePermStoreHook } from "./perm";
 
 export const useMultiTagsStore = defineStore("pure-multiTags", {
   state: () => ({
@@ -25,7 +25,7 @@ export const useMultiTagsStore = defineStore("pure-multiTags", {
         )
       : ([
           ...routerArrays,
-          ...usePermissionStoreHook().flatteningRoutes.filter(
+          ...usePermStoreHook().flatteningRoutes.filter(
             v => v?.meta?.fixedTag
           )
         ] as any),

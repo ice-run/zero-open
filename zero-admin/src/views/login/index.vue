@@ -70,7 +70,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           // 获取后端路由
           await initRouter();
           // 全部采取静态路由模式
-          // usePermissionStoreHook().handleWholeMenus([]);
+          // usePermStoreHook().handleWholeMenus([]);
           // addPathMatch();
           const path = getTopMenu(true).path?.toString();
           await router.push(path || "/");

@@ -8,7 +8,7 @@ import { ref, toRaw, watch, onMounted, nextTick } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { getParentPaths, findRouteByPath } from "@/router/utils";
 import { useTranslationLang } from "../../hooks/useTranslationLang";
-import { usePermissionStoreHook } from "@/store/modules/permission";
+import { usePermStoreHook } from "@/store/modules/perm";
 import LaySidebarExtraIcon from "../lay-sidebar/components/SidebarExtraIcon.vue";
 import LaySidebarFullScreen from "../lay-sidebar/components/SidebarFullScreen.vue";
 
@@ -36,7 +36,7 @@ const {
 } = useNav();
 
 function getDefaultActive(routePath) {
-  const wholeMenus = usePermissionStoreHook().wholeMenus;
+  const wholeMenus = usePermStoreHook().wholeMenus;
   /** 当前路由的父级路径 */
   const parentRoutes = getParentPaths(routePath, wholeMenus)[0];
   defaultActive.value = !isAllEmpty(route.meta?.activePath)
@@ -53,7 +53,7 @@ nextTick(() => {
 });
 
 watch(
-  () => [route.path, usePermissionStoreHook().wholeMenus],
+  () => [route.path, usePermStoreHook().wholeMenus],
   () => {
     getDefaultActive(route.path);
   }
@@ -63,7 +63,7 @@ watch(
 <template>
   <div
     v-if="device !== 'mobile'"
-    v-loading="usePermissionStoreHook().wholeMenus.length === 0"
+    v-loading="usePermStoreHook().wholeMenus.length === 0"
     class="horizontal-header"
   >
     <el-menu
@@ -75,7 +75,7 @@ watch(
       :default-active="defaultActive"
     >
       <el-menu-item
-        v-for="route in usePermissionStoreHook().wholeMenus"
+        v-for="route in usePermStoreHook().wholeMenus"
         :key="route.path"
         :index="resolvePath(route) || route.redirect"
       >

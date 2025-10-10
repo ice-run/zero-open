@@ -5,7 +5,7 @@ import { useNav } from "@/layout/hooks/useNav";
 import { responsiveStorageNameSpace } from "@/config";
 import { storageLocal, isAllEmpty } from "@pureadmin/utils";
 import { findRouteByPath, getParentPaths } from "@/router/utils";
-import { usePermissionStoreHook } from "@/store/modules/permission";
+import { usePermStoreHook } from "@/store/modules/perm";
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import LaySidebarLogo from "../lay-sidebar/components/SidebarLogo.vue";
 import LaySidebarItem from "../lay-sidebar/components/SidebarItem.vue";
@@ -34,7 +34,7 @@ const subMenuData = ref([]);
 const menuData = computed(() => {
   return pureApp.layout === "mix" && device.value !== "mobile"
     ? subMenuData.value
-    : usePermissionStoreHook().wholeMenus;
+    : usePermStoreHook().wholeMenus;
 });
 
 const loading = computed(() =>
@@ -52,19 +52,19 @@ function getSubMenuData() {
   // path的上级路由组成的数组
   const parentPathArr = getParentPaths(
     path,
-    usePermissionStoreHook().wholeMenus
+    usePermStoreHook().wholeMenus
   );
   // 当前路由的父级路由信息
   const parenetRoute = findRouteByPath(
     parentPathArr[0] || path,
-    usePermissionStoreHook().wholeMenus
+    usePermStoreHook().wholeMenus
   );
   if (!parenetRoute?.children) return;
   subMenuData.value = parenetRoute?.children;
 }
 
 watch(
-  () => [route.path, usePermissionStoreHook().wholeMenus],
+  () => [route.path, usePermStoreHook().wholeMenus],
   () => {
     if (route.path.includes("/redirect")) return;
     getSubMenuData();

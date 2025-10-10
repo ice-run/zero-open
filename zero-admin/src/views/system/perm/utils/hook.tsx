@@ -2,10 +2,10 @@ import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import {
-  permissionSearch,
-  type PermissionUpsert,
-  permissionUpsert
-} from "@/api/auth/permission";
+  permSearch,
+  type PermUpsert,
+  permUpsert
+} from "@/api/auth/perm";
 import { transformI18n } from "@/plugins/i18n";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -17,7 +17,7 @@ import { usePublicHooks } from "@/views/system/hooks";
 import { ElMessageBox } from "element-plus";
 import { emptyToNull, listToTreeByCode } from "@/utils/zero/common";
 
-export function usePermission() {
+export function usePerm() {
   const form = reactive({
     id: null,
     name: "",
@@ -122,11 +122,11 @@ export function usePermission() {
           }
         );
         setTimeout(() => {
-          const param: PermissionUpsert = emptyToNull({
+          const param: PermUpsert = emptyToNull({
             id: row.id,
             ...row
-          }) as PermissionUpsert;
-          permissionUpsert({ param })
+          }) as PermUpsert;
+          permUpsert({ param })
             .then(({ data }) => {
               console.debug("data", data);
               switchLoadMap.value[index] = Object.assign(
@@ -159,7 +159,7 @@ export function usePermission() {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await permissionSearch({
+    const { data } = await permSearch({
       param: { param: {}, size: 1000 }
     }); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
     let newData = data.list;
@@ -212,12 +212,12 @@ export function usePermission() {
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
-              permissionUpsert({ param: { ...curData, id: null } }).then(_ => {
+              permUpsert({ param: { ...curData, id: null } }).then(_ => {
                 chores();
               });
             } else {
               // 实际开发先调用修改接口，再进行下面操作
-              permissionUpsert({ param: { ...curData, id: curData.id } }).then(
+              permUpsert({ param: { ...curData, id: curData.id } }).then(
                 _ => {
                   chores();
                 }

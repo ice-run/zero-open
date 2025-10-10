@@ -66,7 +66,7 @@ const {
   onSearch,
   resetForm,
   openDialog,
-  handlePermission,
+  handlePerm,
   handleSave,
   handleDelete,
   filterMethod,
@@ -217,7 +217,7 @@ onMounted(() => {
                 type="primary"
                 :size="size"
                 :icon="useRenderIcon(Menu)"
-                @click="handlePermission(row)"
+                @click="handlePerm(row)"
               >
                 权限
               </el-button>
@@ -238,7 +238,7 @@ onMounted(() => {
                       type="primary"
                       :size="size"
                       :icon="useRenderIcon(Menu)"
-                      @click="handlePermission"
+                      @click="handlePerm"
                     >
                       角色权限
                     </el-button>
@@ -278,7 +278,7 @@ onMounted(() => {
                 width="18px"
                 height="18px"
                 :icon="Close"
-                @click="handlePermission"
+                @click="handlePerm"
               />
             </span>
             <span :class="[iconClass, 'ml-2']">

@@ -26,8 +26,8 @@ public class AuthClient {
     }
 
     @Bean
-    public PermissionApi permissionApi() {
-        return httpServiceProxyFactory.createClient(PermissionApi.class);
+    public PermApi permApi() {
+        return httpServiceProxyFactory.createClient(PermApi.class);
     }
 
     @Bean

@@ -34,17 +34,17 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
     /**
      * 查询权限的角色
      *
-     * @param permissionId Long
+     * @param permId Long
      * @return List
      */
     @Query("""
             select r from Role r
-            left join RolePermission as rp on r.id = rp.roleId
-            left join Permission as p on rp.permissionId = p.id
+            left join RolePerm as rp on r.id = rp.roleId
+            left join Perm as p on rp.permId = p.id
             where rp.valid = true
             and r.valid = true
-            and p.id = :permissionId
+            and p.id = :permId
             """)
-    List<Role> findAllByPermissionId(@Param("permissionId") Long permissionId);
+    List<Role> findAllByPermId(@Param("permId") Long permId);
 
 }

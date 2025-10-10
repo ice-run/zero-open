@@ -7,7 +7,7 @@ import { responsiveStorageNameSpace } from "@/config";
 import { ref, nextTick, computed, onMounted } from "vue";
 import { storageLocal, isAllEmpty } from "@pureadmin/utils";
 import { useTranslationLang } from "../../hooks/useTranslationLang";
-import { usePermissionStoreHook } from "@/store/modules/permission";
+import { usePermStoreHook } from "@/store/modules/perm";
 import LaySidebarItem from "../lay-sidebar/components/SidebarItem.vue";
 import LaySidebarFullScreen from "../lay-sidebar/components/SidebarFullScreen.vue";
 
@@ -55,7 +55,7 @@ onMounted(() => {
 
 <template>
   <div
-    v-loading="usePermissionStoreHook().wholeMenus.length === 0"
+    v-loading="usePermStoreHook().wholeMenus.length === 0"
     class="horizontal-header"
   >
     <div v-if="showLogo" class="horizontal-header-left" @click="backTopMenu">
@@ -70,7 +70,7 @@ onMounted(() => {
       :default-active="defaultActive"
     >
       <LaySidebarItem
-        v-for="route in usePermissionStoreHook().wholeMenus"
+        v-for="route in usePermStoreHook().wholeMenus"
         :key="route.path"
         :item="route"
         :base-path="route.path"
