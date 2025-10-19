@@ -6,11 +6,11 @@
 
     <parent>
         <groupId>run.ice.zero.open</groupId>
-        <artifactId>zero-server</artifactId>
+        <artifactId>server</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>api</artifactId>
+    <artifactId>common</artifactId>
     <packaging>pom</packaging>
 
     <properties>
@@ -18,10 +18,14 @@
     </properties>
 
     <modules>
-        <module>api-demo</module>
-        <module>api-base</module>
-        <module>api-auth</module>
+        <module>common-core</module>
+        <module>common-util</module>
+        <module>common-config</module>
+        <module>common-component</module>
     </modules>
 
-</project>
+    <dependencies>
 
+    </dependencies>
+
+</project>
